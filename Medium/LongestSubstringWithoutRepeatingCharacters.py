@@ -63,5 +63,7 @@ my_str = ["abcabcbb", "bbbbb", "pwwkew", "aab", "au", "dvdf", "abba", "tmmzuxt"]
 
 
 my_solution = Solution()
-for strs in my_str:
-    print(my_solution.lengthOfLongestSubstring(strs))
+# for strs in my_str:
+#     print(my_solution.lengthOfLongestSubstring(strs))
+
+my_solution.lengthOfLongestSubstring(str1)
