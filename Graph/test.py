@@ -27,7 +27,7 @@ class Solution(object):
         column_length = len(grid[0])
 
         while stack:
-            latest_element_on_stack = stack[-1]
+            latest_element_on_stack = stack[len(stack)-1]
             row = latest_element_on_stack[0]
             column = latest_element_on_stack[1]
 
