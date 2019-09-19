@@ -13,7 +13,7 @@ class RandomListNode(object):
 class Solution(object):
 
     def __init__(self, head = None):
-        self.head = None
+        self.head = head
 
     def copyRandomList(self, head):
 
@@ -83,7 +83,7 @@ class Solution(object):
             return
 
         while current is not None:
-            print(current.label,)
+            print(current.label, end = ",")
             current = current.next
 
         print("\n____________________________________\n")
@@ -94,3 +94,4 @@ head = RandomListNode(4)
 
 my_sol = Solution()
 my_sol.copyRandomList(head)
+my_sol.print_list()

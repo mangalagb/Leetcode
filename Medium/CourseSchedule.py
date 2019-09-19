@@ -17,7 +17,7 @@ class Solution(object):
 
         for i in range(0, numCourses):
             result = self.visit(i, top_sort, visited, temp_visited,
-                           graph, numCourses)
+                           graph)
             if not result:
                 return False
 
@@ -41,7 +41,7 @@ class Solution(object):
         return graph
 
     def visit(self, node, top_sort, visited, temp_visited,
-              graph, numCourses):
+              graph):
         if visited[node]:
             return True
 
@@ -56,7 +56,7 @@ class Solution(object):
         neighbours = graph[node]
         for neighbour in neighbours:
             result = self.visit(neighbour, top_sort, visited,
-                                temp_visited, graph, numCourses)
+                                temp_visited, graph)
             if not result:
                 return False
 

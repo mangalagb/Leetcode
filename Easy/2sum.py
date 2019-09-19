@@ -15,7 +15,7 @@ class Solution(object):
             num = numbers[i]
             remaining_num = target - num
             if remaining_num in remaining_sums:
-                return [remaining_sums[remaining_num] + 1, i+1]
+                return [remaining_sums[remaining_num], i]
             else:
                 remaining_sums[num] = i
 
