@@ -3,7 +3,7 @@
 # consecutive elements in the array.
 
 
-def find_sum(nums):
+def find_sum(nums, k):
     sum = 0
 
     for i in range(0,k):
@@ -23,5 +23,5 @@ def find_sum(nums):
 
 nums = [100, 200, 300, 400]
 k = 2
-find_sum(nums)
+find_sum(nums, k)
 #Output : 700

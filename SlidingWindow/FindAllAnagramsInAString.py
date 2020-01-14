@@ -54,6 +54,6 @@ s = "cbaebabacd"
 p = "abc"
 print(my_solution.findAnagrams(s, p))
 
-s1 = "abab"
-p1 = "a"
-print(my_solution.findAnagrams(s1, p1))
+# s1 = "abab"
+# p1 = "a"
+# print(my_solution.findAnagrams(s1, p1))
