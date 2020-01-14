@@ -1,4 +1,15 @@
+# Given preorder and inorder traversal of a tree, construct the binary tree.
+#
+# Note:
+# You may assume that duplicates do not exist in the tree.
+
 # Definition for a binary tree node.
+
+# Inorder (Left, Root, Right)
+# Preorder (Root, Left, Right)
+# Postorder (Left, Right, Root)
+
+
 class TreeNode(object):
     def __init__(self, x):
         self.val = x

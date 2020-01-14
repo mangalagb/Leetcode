@@ -80,14 +80,14 @@ nums1 = [5,7,7,8,8,10]
 target1 = 8
 print(mySolution.searchRange(nums1, target1))
 
-nums2 = [5,7,7,8,8,10]
-target2 = 6
-print(mySolution.searchRange(nums2, target2))
-
-nums3 = [1]
-target3 = 1
-print(mySolution.searchRange(nums3, target3))
-
-nums3 = [2,2]
-target3 = 2
-print(mySolution.searchRange(nums3, target3))
+# nums2 = [5,7,7,8,8,10]
+# target2 = 6
+# print(mySolution.searchRange(nums2, target2))
+#
+# nums3 = [1]
+# target3 = 1
+# print(mySolution.searchRange(nums3, target3))
+#
+# nums3 = [2,2]
+# target3 = 2
+# print(mySolution.searchRange(nums3, target3))
