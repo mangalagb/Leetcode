@@ -24,8 +24,8 @@ class Solution(object):
                 slow = slow.next
                 loop = loop.next
 
-                if slow.val == loop.val:
-                    return slow
+                if slow == loop:
+                    return loop
 
 
     def hasCycle(self, head):
@@ -49,17 +49,28 @@ class Solution(object):
         return None
 
     def create_list(self):
-        head = ListNode(1)
-        node2 = ListNode(2)
-        node3 = ListNode(3)
-        node4 = ListNode(4)
-        node5 = ListNode(5)
+        nums = [-1, -7, 7, -4, 19, 6, -9, -5, -2, -5]
+        head = ListNode(-1)
+        node2 = ListNode(-7)
+        node3 = ListNode(7)
+        node4 = ListNode(-4)
+        node5 = ListNode(19)
+        node6 = ListNode(6)
+        node7 = ListNode(-9)
+        node8 = ListNode(-5)
+        node9 = ListNode(-2)
+        node10 = ListNode(-5)
 
         head.next = node2
         node2.next = node3
         node3.next = node4
         node4.next = node5
-        node5.next = head
+        node5.next = node6
+        node6.next = node7
+        node7.next = node8
+        node8.next = node9
+        node9.next = node10
+        node10.next = node9
         return head
 
 my_sol = Solution()
