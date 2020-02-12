@@ -14,44 +14,82 @@ class Solution(object):
         :type k: int
         :rtype: int
         """
-        print(s, k)
-
-        begin = 1
-        end = 0
+        i = 0
+        j = 1
         length_of_string = len(s)
         count = 0
-        index_where_character_changed = -1
         max_length = -1
+        possible_characters = {}
+        previous_char = s[0]
 
-        prev_char = s[0]
-        while end < length_of_string:
-            current_char = s[end]
+        while j < length_of_string:
+            character = s[j]
 
-            if end == begin or current_char == prev_char:
-                end += 1
+            if character in possible_characters:
+                possible_characters[character] = 1
 
-            elif current_char != prev_char:
+            if character not in possible_characters and len(possible_characters) > 1:
                 count += 1
-                index_where_character_changed = end
-                if count <= k:
-                    end += 1
-                else:
-                    result = end - begin + 1
-                    if result > max_length:
-                        max_length = result
-                    begin = index_where_character_changed
-                    prev_char = current_char
 
-        print(max_length)
+
+
+
+
+
+
+    def characterReplacement1(self, s, k):
+        """
+        :type s: str
+        :type k: int
+        :rtype: int
+        """
+        i = 0
+        j = 1
+        length_of_string = len(s)
+        count = 0
+        prev_char = s[0]
+        max_length = -1
+        possible_characters = {}
+
+        while j < length_of_string:
+            current_char = s[j]
+
+            if current_char == prev_char:
+                j += 1
+            elif current_char != prev_char and count < k:
+                j += 1
+                count += 1
+                possible_characters.append(prev_char)
+                possible_characters.append(current_char)
+            else:
+                i += 1
+                prev_char = s[i]
+                possible_characters.remove(s[i-1])
+            result = j - i
+            if result > max_length:
+                max_length = result
+
         return max_length
-
 
 my_sol = Solution()
 
-s = "ABAB"
-k = 2
-my_sol.characterReplacement(s, k)
+# s = "ABAB"
+# k = 2
+# print(my_sol.characterReplacement1(s, k))
+#
+# s = "AABABBA"
+# k = 1
+# print(my_sol.characterReplacement1(s, k))
+#
+# s = "ABAA"
+# k = 0
+# print(my_sol.characterReplacement1(s, k))
+#
+# s = "BAAA"
+# k = 0
+# print(my_sol.characterReplacement1(s, k))
 
-s = "AABABBA"
-k = 1
-my_sol.characterReplacement(s, k)
+s = "ABBB"
+k = 2
+print(my_sol.characterReplacement(s, k))
+
