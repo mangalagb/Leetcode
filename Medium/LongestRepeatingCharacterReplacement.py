@@ -24,37 +24,40 @@ class Solution(object):
         while end < len(s):
             character = s[end]
 
-            #Add initial char
-            if len(characters) == 0:
+            if end == 0:
                 characters[character] = 1
+
             elif character in characters:
                 characters[character] += 1
-            elif count+1 <= k:
+
+            elif character not in characters and count <= k:
                 characters[character] = 1
+
+            if len(characters) == 1:
+                count = 0
             else:
-                characters[character] = 1
-                count += 1
+                count = sum(characters.values()) - max(characters.values())
 
-            if len(characters) > 1:
-                count = max(count, min(characters.values()))
-
-            if count <= k:
-                local_result = end - begin + 1
-                result = max(result, local_result)
             end += 1
 
+            #Count too big
+            #slide begin to make count = k
             while count > k:
-                #print("incorrect answer")
-
                 begin_char = s[begin]
                 characters[begin_char] -= 1
+                begin += 1
                 if characters[begin_char] == 0:
                     characters.pop(begin_char)
-                begin += 1
+
                 if len(characters) == 1:
                     count = 0
                 else:
                     count = min(characters.values())
+
+            #Calculate length of substring
+            # At this point count <= k
+            local_result = end - begin
+            result = max(result, local_result)
 
         return result
 
@@ -84,5 +87,9 @@ print(my_sol.characterReplacement(s, k))
 
 s = "ABCDE"
 k = 1
+print(my_sol.characterReplacement(s, k))
+
+s = "FSSSRDEQLV"
+k = 4
 print(my_sol.characterReplacement(s, k))
 
