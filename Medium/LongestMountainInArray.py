@@ -17,27 +17,6 @@ class Solution(object):
         :rtype: int
         """
 
-        local_peak_size = 0
-        total_peak_size = 0
-        peak_reached = False
-
-        prev = A[0]
-
-        for i in range(1, len(A)):
-            if A[i] > prev and not peak_reached:
-                local_peak_size += 1
-
-            if A[i] < prev:
-                peak_reached = True
-                local_peak_size += 1
-
-            if A[i] > prev and peak_reached:
-                if local_peak_size >= 3 and local_peak_size > total_peak_size:
-                    total_peak_size = local_peak_size
-                local_peak_size = 0
-            prev = A[i]
-
-        print(total_peak_size)
 
 
 
