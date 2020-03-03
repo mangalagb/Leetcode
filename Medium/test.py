@@ -1,50 +1,71 @@
 class Solution(object):
-    def canJump(self, nums):
+    def canFinish(self, numCourses, prerequisites):
         """
-        :type nums: List[int]
+        :type numCourses: int
+        :type prerequisites: List[List[int]]
         :rtype: bool
         """
-        possible_steps = [[len(nums) - 1, nums[len(nums) - 1]]]
-        while len(possible_steps) > 0:
-            values = possible_steps.pop()
-            index = values[0]
-            result = self.do_jump(nums, index)
+        visited = [False] * numCourses
+        temp_visited = [False] * numCourses
+        graph = self.build_graph(prerequisites, numCourses)
+        top_sort = []
 
+        if len(graph) == 0:
+            return True
+
+        result = False
+        for i in range(0, numCourses):
+            result = self.visit(i, visited, temp_visited, graph, top_sort)
             if not result:
-                return True
-            possible_steps.extend(result)
+                result = False
+                break
+        return result
 
-        if len(possible_steps) == 0:
+    def build_graph(self, prerequisites, num_of_courses):
+        graph = {}
+        for num in range(0, num_of_courses):
+            graph[num] = []
+
+        for prerequisite in prerequisites:
+            class_with_dependency = prerequisite[1]
+            class_with_no_dependency = prerequisite[0]
+            graph[class_with_dependency].append(class_with_no_dependency)
+
+        return graph
+
+
+    def visit(self, i, visited, temp_visited, graph, top_sort):
+        if visited[i]:
+            return True
+
+        if temp_visited[i]:
             return False
 
+        temp_visited[i] = True
+        children = graph[i]
+        for child in children:
+            result = self.visit(child, visited, temp_visited, graph, top_sort)
+            if not result:
+                return result
 
-
-    def do_jump(self, nums, target_index):
-
-        possible_steps = []
-        counter = 0
-        for i in range(target_index-1, -1, -1):
-            counter += 1
-            if nums[i] == counter:
-                possible_steps.append([i, nums[i]])
-
-                if i == 0:
-                    return None
-
-        return possible_steps
-
+        visited[i] = True
+        top_sort.insert(0, i)
+        return True
 
 my_sol = Solution()
 
-nums = [2,3,1,1,4]
-print(my_sol.canJump(nums))
+prerequisites = [[1,0]]
+num_of_courses = 2
+print(my_sol.canFinish(num_of_courses, prerequisites))
 
-nums = [3,2,1,0,4]
-print(my_sol.canJump(nums))
+num_of_courses = 2
+prerequisites = [[1,0],[0,1]]
+print(my_sol.canFinish(num_of_courses, prerequisites))
 
-# nums = [2,5,0,0]
-# print(my_sol.canJump(nums))
-#
-# nums = [2,0,6,9,8,4,5,0,8,9,1,2,9,6,8,8,0,6,3,1,2,2,1,2,6,5,3,1,2,2,6,4,2,4,3,0,0,0,3,8,2,4,0,1,2,0,1,4,6,5,8,0,7,9,3,4,6,6,5,8,9,3,4,3,7,0,4,9,0,9,8,4,3,0,7,7,1,9,1,9,4,9,0,1,9,5,7,7,1,5,8,2,8,2,6,8,2,2,7,5,1,7,9,6]
-# print(my_sol.canJump(nums))
+num_of_courses = 1
+prerequisites = []
+print(my_sol.canFinish(num_of_courses, prerequisites))
 
+num_of_courses = 3
+prerequisites = [[1,0]]
+print(my_sol.canFinish(num_of_courses, prerequisites))

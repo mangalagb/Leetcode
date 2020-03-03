@@ -9,9 +9,7 @@ class Solution(object):
         :rtype: int
         """
         length_of_array = len(A)
-        print(A)
 
-        #left_stack = [[0, A[0]]]
         left_stack =[]
         previous_less = [-1] * length_of_array
         for i in range(0, length_of_array):
@@ -25,9 +23,7 @@ class Solution(object):
                 previous_less[i] = left_stack[-1][0]
 
             left_stack.append([i, A[i]])
-        #print(previous_less)
 
-        #right_stack = [[length_of_array-1, A[length_of_array-1]]]
         right_stack = []
         next_less = [-1] * length_of_array
         for i in range(length_of_array - 1, -1, -1):
@@ -42,24 +38,35 @@ class Solution(object):
                 next_less[i] = -1
 
             right_stack.append([i, A[i]])
-        #print(next_less)
 
         result = 0
         for i in range(0, length_of_array):
-            left_dist = i - previous_less[i]
-            # if previous_less[i] == -1:
-            #     left_dist = 1
+            prev_index = previous_less[i]
+            left_result = 0
+            if prev_index != -1:
+                distance = i - prev_index
+                left_result = distance * A[prev_index]
 
-            right_dist = next_less[i] - i
-            # if next_less[i] == -1:
-            #     right_dist = 1
 
-            num_of_subarrays = (A[i] * left_dist * right_dist) + 1
-            result += num_of_subarrays
+            next_index = next_less[i]
+            right_result = 0
+            if next_index != -1:
+                distance = next_index - i
+                right_result = distance * A[next_index]
 
-        return result
+            ans = left_result + right_result + A[i]
+            result += ans
+
+        subarray_sum = result % 1000000007
+        return subarray_sum
 
 my_sol = Solution()
 
 nums = [3,1,2,4]
 print(my_sol.sumSubarrayMins(nums))
+
+# nums = [85]
+# print(my_sol.sumSubarrayMins(nums))
+#
+# nums = [59,91]
+# print(my_sol.sumSubarrayMins(nums))
