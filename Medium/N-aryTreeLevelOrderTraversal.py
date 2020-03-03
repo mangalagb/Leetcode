@@ -16,13 +16,15 @@ class Solution(object):
         :type root: Node
         :rtype: List[List[int]]
         """
-        print(root.val)
-        node_dict = {}
+        if not root:
+            return []
 
-        queue = [[0, root]]
+        node_dict = {}
+        curr_depth = 0
+        queue = [[curr_depth, root]]
 
         while len(queue) > 0:
-            element = queue.pop(0)
+            element = queue.pop()
             depth = element[0]
             node = element[1]
 
@@ -31,6 +33,24 @@ class Solution(object):
             else:
                 node_dict[depth].append(node.val)
 
+            children = node.children
+            if children:
+                depth += 1
+                for child in children:
+                    queue.append([depth, child])
+
+        depth = 0
+        result = []
+        while True:
+            if depth in node_dict:
+                nodes = node_dict[depth]
+                reversed_nodes = nodes[::-1]
+                result.append(reversed_nodes)
+                depth += 1
+            else:
+                break
+
+        return result
             
 
 
@@ -49,4 +69,4 @@ class Solution(object):
 
 my_sol = Solution()
 root = my_sol.build_tree()
-my_sol.levelOrder(root)
+print(my_sol.levelOrder(root))

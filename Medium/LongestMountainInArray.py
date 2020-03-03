@@ -11,93 +11,115 @@
 # Return 0 if there is no mountain.
 
 class Solution(object):
-    def longestMountain(self, A):
+    def longestMountain1(self, A):
         """
         :type A: List[int]
         :rtype: int
         """
-        min_on_left = [-1] * len(A)
-        left_stack = []
-        for i in range(0, len(A)):
-            current = A[i]
+        if len(A) < 2:
+            return 0
 
-            while self.get_top_element(left_stack) is not None and current <= self.get_top_element(left_stack):
-                left_stack.pop()
+        start = 0
+        end = 0
+        increasing = False
+        decreasing = False
+        peak = -1
 
-            if self.is_empty(left_stack):
-                min_on_left[i] = -1
-            else:
-                min_on_left[i] = self.get_first_index(left_stack)
-
-            left_stack.append([i, A[i]])
-
-
-        min_on_right = [-1] * len(A)
-        right_stack = []
-        for i in range(len(A)-1, -1, -1):
-            current = A[i]
-
-            while self.get_top_element(right_stack) is not None and current <= self.get_top_element(right_stack):
-                right_stack.pop()
-
-            if self.is_empty(right_stack):
-                min_on_right[i] = -1
-            else:
-                min_on_right[i] = self.get_first_index(right_stack)
-
-            right_stack.append([i, A[i]])
-
-        # print(A)
-        # print(min_on_left)
-        # print(min_on_right)
-
+        prev = A[0]
         result = 0
-        for i in range(0, len(A)):
-            min_left = min_on_left[i]
-            min_right = min_on_right[i]
+        A.append(None)
 
-            if min_left != -1 and min_right != -1:
-                distance = min_right - min_left
-                if distance > 0:
-                    result = max(result, distance+1)
+        for i in range(1, len(A)):
+            current = A[i]
+
+            if current is None or current > prev:
+                if decreasing:
+                    decreasing = False
+                    end = i-1
+                    window = end - start + 1
+                    result = max(result, window)
+                    start = i
+                    end = i
+                else:
+                    increasing = True
+
+            elif current < prev:
+                if increasing:
+                    increasing = False
+                    decreasing = True
+
+                else:
+                    start = i
+                    increasing = False
+
+            prev = current
+        return result
+
+    def longestMountain(self, A):
+        if len(A) < 3:
+            return 0
+
+        A.append(None)
+        start = 0
+        end = 0
+        length_of_nums = len(A)
+
+        prev = None
+        result = 0
+        i = 0
+        increasing = False
+        decreasing = False
+        while end < length_of_nums:
+            if prev is None:
+                prev = A[i]
+                i += 1
+
+            while i < length_of_nums and A[i] is not None and A[i] > prev:
+                prev = A[i]
+                i += 1
+                increasing = True
+
+            while i < length_of_nums and A[i] is not None and A[i] < prev and increasing:
+                prev = A[i]
+                i += 1
+                decreasing = True
+
+            end = i - 1
+            increasing = False
+
+            if end - start >= 3 and decreasing:
+                window = end - start + 1
+                result = max(result, window)
+                decreasing = False
+
+            if A[i] is None:
+                break
+
+            i -= 1
+            start = i
+            end = i
+            prev = None
 
         return result
 
-    def get_top_element(self, stack):
-        length_of_stack = len(stack)
-        if length_of_stack < 1:
-            return None
-        result = stack[length_of_stack-1][1]
-        return result
-
-    def get_first_index(self, stack):
-        length_of_stack = len(stack)
-        if length_of_stack < 1:
-            return -1
-
-        return stack[0][0]
-
-    def is_empty(self, stack):
-        length_of_stack = len(stack)
-        if length_of_stack < 1:
-            return True
-        return False
-
-
-
-my_sol = Solution()
-
-# num1 = [2,1,4,7,3,2,5]
+# num1 = [1,4,7,3,2,5]
 # print(my_sol.longestMountain(num1))
 #
-# nums = [2,2,2]
-# print(my_sol.longestMountain(nums))
+# num1 = [2,3,3,2,0,2]
+# print(my_sol.longestMountain(num1))
 #
-# nums = [3,2]
-# print(my_sol.longestMountain(nums))
+# num1 = [2,2,2]
+# print(my_sol.longestMountain(num1))
+#
+# num1 = [0,1,2,3,4,5,4,3,2,1,0]
+# print(my_sol.longestMountain(num1))
+#
+# num1 = [0,1,0]
+# print(my_sol.longestMountain(num1))
+#
+# num1 = [0,1,2,3,4,5,6,7,8,9]
+# print(my_sol.longestMountain(num1))
 
-# nums = [0,0,0,0,0]
-# print(my_sol.longestMountain(nums))
+# num1 = [875,884,239,731,723,685]
+# print(my_sol.longestMountain(num1))
 
-nums = [2,3,3,2,0,2]
-print(my_sol.longestMountain(nums))
