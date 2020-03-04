@@ -8,10 +8,6 @@
 
 class Solution(object):
     def canFinish(self, numCourses, prerequisites):
-        top_sort = []
-        temp_visited = []
-        visited = []
-
         if not prerequisites:
             return True
 
@@ -19,9 +15,9 @@ class Solution(object):
         result = True
 
         # Initially all nodes are unvisited
-        for i in range(0, numCourses):
-            temp_visited.append(False)
-            visited.append(False)
+        top_sort = []
+        temp_visited = [False] * numCourses
+        visited = [False] * numCourses
 
         for i in range(0, numCourses):
             result = self.visit(i, top_sort, visited, temp_visited,
@@ -43,9 +39,7 @@ class Solution(object):
             first_course = prerequisite[0]
             second_course = prerequisite[1]
 
-            values = graph[first_course]
-            values.append(second_course)
-            graph[first_course] = values
+            graph[first_course].append(second_course)
         return graph
 
     def visit(self, node, top_sort, visited, temp_visited,
@@ -68,7 +62,7 @@ class Solution(object):
             if not result:
                 return False
 
-        #m Mark node permanently
+        # Mark node permanently
         visited[node] = True
 
         # Add node to head of list
