@@ -50,39 +50,38 @@ class Solution(object):
             if current_product > max_backward:
                 max_backward = current_product
 
-                # return max of max_forward and max_backward
+        # return max of max_forward and max_backward
         result = max(max_forward, max_backward)
 
         # Product should not be negative.
-        # (Product of an empty subarray is
-        # considered as 0)
+        # Instead return product of an empty subarray which is
+        # considered as 0
         return max(result, 0)
-
 my_sol = Solution()
 
 nums = [2,-5,-2,-4,3]
 print(my_sol.maxProduct(nums)) # 24
 
-# nums = [2,3,-2,4]
-# print(my_sol.maxProduct(nums)) # 6
-#
-# nums = [2,3,-2,10]
-# print(my_sol.maxProduct(nums)) # 10
-#
-# nums = [-2,0,-1]
-# print(my_sol.maxProduct(nums)) #0
-#
-# nums = [0,2]
-# print(my_sol.maxProduct(nums)) #2
-#
-# nums = [-4,-3]
-# print(my_sol.maxProduct(nums)) # 12
-#
-# nums = [-2,3,-4]
-# print(my_sol.maxProduct(nums)) # 24
-#
-# nums = [-2,13,-4]
-# print(my_sol.maxProduct(nums)) # 104
-#
-# nums = [7,-2,-4]
-# print(my_sol.maxProduct(nums)) # 56
+nums = [2,3,-2,4]
+print(my_sol.maxProduct(nums)) # 6
+
+nums = [2,3,-2,10]
+print(my_sol.maxProduct(nums)) # 10
+
+nums = [-2,0,-1]
+print(my_sol.maxProduct(nums)) #0
+
+nums = [0,2]
+print(my_sol.maxProduct(nums)) #2
+
+nums = [-4,-3]
+print(my_sol.maxProduct(nums)) # 12
+
+nums = [-2,3,-4]
+print(my_sol.maxProduct(nums)) # 24
+
+nums = [-2,13,-4]
+print(my_sol.maxProduct(nums)) # 104
+
+nums = [7,-2,-4]
+print(my_sol.maxProduct(nums)) # 56
