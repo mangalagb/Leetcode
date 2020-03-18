@@ -17,6 +17,34 @@ from collections import defaultdict
 
 class Solution(object):
     def subarraySum1(self, nums, k):
+        length_of_nums = len(nums)
+        number_of_subarrays = 2 ** length_of_nums
+
+        result = 0
+        for i in range(0, number_of_subarrays):
+            binary_num = bin(i)[2:].zfill(length_of_nums)
+
+            valid_subset = True
+            seen_one = False
+            for i in range(0, length_of_nums):
+                digit = binary_num[i]
+
+                if digit == "1":
+                    if not seen_one:
+                        seen_one = True
+                    else:
+                        if binary_num[i-1] != "1":
+                            valid_subset = False
+                            break
+
+            if valid_subset:
+                subset = [nums[j] for j in range(length_of_nums - 1, -1, -1) if binary_num[j] == "1"]
+                if sum(subset) == k:
+                    result += 1
+        return result
+
+
+    def subarraySum(self, nums, k):
         if not nums:
             return
 
@@ -45,29 +73,29 @@ my_sol = Solution()
 
 nums = [0,0,0,0,0,0,0,0,0,0]
 k = 0
-print(my_sol.subarraySum1(nums, k)) #55
+print(my_sol.subarraySum(nums, k)) #55
 
-#
-# nums = [1,1,1]
-# k = 2
-# print(my_sol.subarraySum(nums, k)) #2
-#
-# nums = [3,3,3,3]
-# k = 6
-# print(my_sol.subarraySum(nums, k)) #3
 
-# nums = [1,2,3]
-# k = 3
-# print(my_sol.subarraySum(nums, k)) #2
-#
-# nums = [1]
-# k = 1
-# print(my_sol.subarraySum(nums, k)) #1
-#
-# nums = [1,2, 3]
-# k = 10
-# print(my_sol.subarraySum(nums, k)) #0
-#
-# nums = [-1,-1,1]
-# k = 0
-# print(my_sol.subarraySum(nums, k)) #1
+nums = [1,1,1]
+k = 2
+print(my_sol.subarraySum1(nums, k)) #2
+
+nums = [3,3,3,3]
+k = 6
+print(my_sol.subarraySum(nums, k)) #3
+
+nums = [1,2,3]
+k = 3
+print(my_sol.subarraySum(nums, k)) #2
+
+nums = [1]
+k = 1
+print(my_sol.subarraySum(nums, k)) #1
+
+nums = [1,2, 3]
+k = 10
+print(my_sol.subarraySum(nums, k)) #0
+
+nums = [-1,-1,1]
+k = 0
+print(my_sol.subarraySum(nums, k)) #1
