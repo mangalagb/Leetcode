@@ -9,50 +9,36 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[int]
         """
-        new_nums = nums
-        new_nums.extend(nums)
-        length_of_array = len(new_nums)
-        result = [-1] * len(new_nums)
+        length_of_nums = len(nums)
+        queue = []
+        result = [-1] * length_of_nums
 
-        i = 0
-        stack = []
+        for i in range(0,length_of_nums):
+            current = nums[i]
+            self.find_greater(current, i, queue, result)
 
-        while True:
-            if i == length_of_array:
-                break
+        for i in range(0,length_of_nums):
+            current = nums[i]
+            self.find_greater(current, i, queue, result)
 
-            current = new_nums[i]
-            length_of_stack = len(stack)
+        return result
 
-            if length_of_stack == 0:
-                stack.append(i)
-                i += 1
-                continue
+    def find_greater(self, current, i, queue, result):
+        len_of_queue = len(queue)
 
-            top_index = stack[length_of_stack-1]
-            top_element = new_nums[top_index]
+        if len_of_queue == 0:
+            queue.insert(0, [current, i])
+        else:
+            top = queue[0]
 
-            if current < top_element:
-                stack.append(i)
-                i += 1
-            elif current > top_element:
-                if result[top_index] == -1:
-                    result[top_index] = current
-                    stack.pop()
-            elif current == top_element:
-                i += 1
-                continue
+            if current < top[0]:
+                queue.insert(0, [current, i])
+            else:
+                while len(queue) != 0 and current > queue[0][0]:
+                    popped_element = queue.pop(0)
+                    result[popped_element[1]] = current
 
-        half_result = len(result) //2
-        answer = [-1] * half_result
-        for i in range(0, half_result):
-            ans = result[i]
-            if ans == -1:
-                new_index = len(answer) + i
-                if new_index < len(result):
-                    ans = result[new_index]
-            answer[i] = ans
-        return answer
+                queue.insert(0, [current, i])
 
 my_sol = Solution()
 

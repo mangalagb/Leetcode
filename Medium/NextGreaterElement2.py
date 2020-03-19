@@ -9,59 +9,44 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[int]
         """
-        length_of_array = len(nums)
-        result = [-1] * length_of_array
+        length_of_nums = len(nums)
+        queue = []
+        result = [-1] * length_of_nums
 
-        if length_of_array == 1:
-            return result
-
-        first_loop = True
-        i = 0
-        stack = []
-
-        while True:
-            if i == length_of_array:
-                if first_loop:
-                    first_loop = False
-                    i = 0
-                else:
-                    return result
-
-            if result[i] != -1:
-                i += 1
-                continue
+        for i in range(0,length_of_nums):
             current = nums[i]
-            length_of_stack = len(stack)
+            self.find_greater(current, i, queue, result)
 
-            if length_of_stack == 0:
-                stack.append(i)
-                i += 1
-                continue
+        for i in range(0,length_of_nums):
+            current = nums[i]
+            self.find_greater(current, i, queue, result)
 
-            top_index = stack[length_of_stack-1]
-            top_element = nums[top_index]
-
-            if current < top_element:
-                stack.append(i)
-                i += 1
-            elif current > top_element:
-                if result[top_index] == -1:
-                    result[top_index] = current
-                    stack.pop()
-            elif current == top_element:
-                i += 1
-                continue
         return result
 
+    def find_greater(self, current, i, queue, result):
+        len_of_queue = len(queue)
 
+        if len_of_queue == 0:
+            queue.insert(0, [current, i])
+        else:
+            top = queue[0]
 
+            if current < top[0]:
+                queue.insert(0, [current, i])
+            else:
+                while len(queue) != 0 and current > queue[0][0]:
+                    popped_element = queue.pop(0)
+                    result[popped_element[1]] = current
 
-
+                queue.insert(0, [current, i])
 
 my_sol = Solution()
 
-# nums = [1,2,1]
-# print(my_sol.nextGreaterElements(nums)) #[2,-1,2]
+nums = [1,2,1]
+print(my_sol.nextGreaterElements(nums)) #[2,-1,2]
 
 nums = [1,2,3,2,1]
 print(my_sol.nextGreaterElements(nums)) #[2,3,-1,3,2]
+
+nums = [1,2,3,4,3]
+print(my_sol.nextGreaterElements(nums)) #[2,3,4,-1,4]
