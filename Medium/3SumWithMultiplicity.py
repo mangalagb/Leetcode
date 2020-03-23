@@ -13,69 +13,25 @@ class Solution(object):
         :rtype: int
         """
         length_of_nums = len(A)
-        frequencies = defaultdict(int)
-        for num in A:
-            frequencies[num] += 1
-
-        unique_numbers = set()
-        for k in range(0, length_of_nums-1):
-            i = k + 1
-            j = length_of_nums -1
-
-            while i < j:
-                if A[k] + A[i] + A[j] == target:
-                    string_num = str(A[k]) + "," + str(A[i]) + "," + str(A[j])
-                    if string_num not in unique_numbers:
-                        unique_numbers.add(string_num)
-                    i += 1
-                    j -= 1
-                elif A[k] + A[i] + A[j] < target:
-                    i += 1
-                else:
-                    j -= 1
-
+        frequency = defaultdict(int)
         result = 0
-        for tuple in unique_numbers:
-            nums = [int(x) for x in tuple.split(",")]
-            num1 = nums[0]
-            num2 = nums[1]
-            num3 = nums[2]
-            answer = 1
 
-            if num1 != num2 != num3:
-                answer *= self.find_combination(frequencies[num1], 1)
-                answer *= self.find_combination(frequencies[num2], 1)
-                answer *= self.find_combination(frequencies[num3], 1)
+        for i in range(0, length_of_nums):
+            req_two_sum = target - A[i]
 
-            elif num1 == num2 and num2 != num3:
-                answer *= self.find_combination(frequencies[num1], 2)
-                answer *= self.find_combination(frequencies[num3], 1)
+            local_answer = 0
+            if req_two_sum in frequency:
+                local_answer = frequency[req_two_sum]
+            result += local_answer
 
-            elif num2 == num3 and num1 != num2:
-                answer *= self.find_combination(frequencies[num2], 2)
-                answer *= self.find_combination(frequencies[num1], 1)
-            else:
-                answer *= self.find_combination(frequencies[num1], 3)
-
-            result += answer
+            for j in range(0, i):
+                two_sum = A[i] + A[j]
+                frequency[two_sum] += 1
 
         MOD = 10 ** 9 + 7
         result = result % MOD
         return result
 
-    def find_combination(self, n, r):
-        top_ans = self.factorial(n)
-        bottom_answer = self.factorial(r) * (self.factorial(n-r))
-
-        answer = top_ans // bottom_answer
-        return answer
-
-    def factorial(self, num):
-        ans = 1
-        while num > 1:
-            ans *= num
-            num -= 1
-        return ans
 
 my_sol = Solution()
 
