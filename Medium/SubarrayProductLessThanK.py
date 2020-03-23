@@ -23,11 +23,6 @@
 
 class Solution(object):
     def numSubarrayProductLessThanK(self, nums, k):
-        """
-        :type nums: List[int]
-        :type k: int
-        :rtype: int
-        """
         if k == 0:
             return 0
 
@@ -49,7 +44,6 @@ class Solution(object):
 
         return count
 
-
 my_sol = Solution()
 
 nums = [10, 5, 2, 6]
@@ -63,3 +57,15 @@ print(my_sol.numSubarrayProductLessThanK(nums, k))  # 0
 nums = [10, 9, 10, 4, 3, 8, 3, 3, 6, 2, 10, 10, 9, 3]
 k = 19
 print(my_sol.numSubarrayProductLessThanK(nums, k))  # 18 4 [[4,3], [3,3], [3,6], [6,2]]
+
+nums = [10,2,2,5,4,4,4,3,7,7]
+k = 289
+print(my_sol.numSubarrayProductLessThanK(nums, k)) #31 21
+
+# nums = [10,2,2,5,4,4]
+# k = 289
+# print(my_sol.numSubarrayProductLessThanK(nums, k)) #18 12
+
+# nums = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+# k = 2
+# print(my_sol.numSubarrayProductLessThanK(nums, k)) #8 4

@@ -1,6 +1,17 @@
 #Given an array of integers and an integer k, you need to find the
 # total number of continuous subarrays whose sum equals to k.
 
+# Suppose that our array is: [1,2,3…,n]. How many contiguous subarrays contain k
+# Look at the following drawing:
+# |1|2|3|4|…|k−1|k|k+1|…|n|
+#
+# Every subarray containing k
+# can be obtained by selecting a "barrier" to the left of k and a barrier
+# to the right of k. There are k barriers to the left of k and n−k+1 barriers to the right of k
+#
+# Therefore there are k(n−k+1)
+# contiguous subarrays containing k in the array [1,2,3…n]
+
 from collections import defaultdict
 
 
