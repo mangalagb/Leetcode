@@ -13,36 +13,24 @@ class Solution(object):
         :rtype: int
         """
         length_of_nums = len(A)
+        frequency = defaultdict(int)
         result = 0
 
-        for k in range(0, length_of_nums):
-            current = A[k]
-            new_target = target - current
-            new_nums = A[k+1:]
+        for i in range(0, length_of_nums):
+            req_two_sum = target - A[i]
 
-            count = self.two_sums(new_nums, new_target)
-            result += count
+            local_answer = 0
+            if req_two_sum in frequency:
+                local_answer = frequency[req_two_sum]
+            result += local_answer
+
+            for j in range(0, i):
+                two_sum = A[i] + A[j]
+                frequency[two_sum] += 1
 
         MOD = 10 ** 9 + 7
         result = result % MOD
         return result
-
-
-    def two_sums(self, nums, target):
-        frequency = defaultdict(int)
-        result = 0
-
-        for i in range(0, len(nums)):
-            current = nums[i]
-            remaining = target - current
-
-            if current in frequency:
-                result += frequency[current]
-                frequency[remaining] += 1
-            else:
-                frequency[remaining] += 1
-        return result
-
 
 my_sol = Solution()
 
