@@ -1,52 +1,63 @@
-# Given a circular array (the next element of the last element is the first element of the array),
-# print the Next Greater Number for every element. The Next Greater Number of a number x is the first
-# greater number to its traversing-order next in the array, which means you could search circularly to
-# find its next greater number. If it doesn't exist, output -1 for this number.
+# Given an integer array A, and an integer target, return the number of tuples i, j, k
+# such that i < j < k and A[i] + A[j] + A[k] == target.
+#
+# As the answer can be very large, return it modulo 10^9 + 7.
+from collections import defaultdict
+
 
 class Solution(object):
-    def nextGreaterElements(self, nums):
+    def threeSumMulti(self, A, target):
         """
-        :type nums: List[int]
-        :rtype: List[int]
+        :type A: List[int]
+        :type target: int
+        :rtype: int
         """
-        length_of_nums = len(nums)
-        queue = []
-        result = [-1] * length_of_nums
+        length_of_nums = len(A)
+        result = 0
 
-        for i in range(0,length_of_nums):
-            current = nums[i]
-            self.find_greater(current, i, queue, result)
+        for k in range(0, length_of_nums):
+            current = A[k]
+            new_target = target - current
+            new_nums = A[k+1:]
 
-        for i in range(0,length_of_nums):
-            current = nums[i]
-            self.find_greater(current, i, queue, result)
+            count = self.two_sums(new_nums, new_target)
+            result += count
 
+        MOD = 10 ** 9 + 7
+        result = result % MOD
         return result
 
-    def find_greater(self, current, i, queue, result):
-        len_of_queue = len(queue)
 
-        if len_of_queue == 0:
-            queue.insert(0, [current, i])
-        else:
-            top = queue[0]
+    def two_sums(self, nums, target):
+        frequency = defaultdict(int)
+        result = 0
 
-            if current < top[0]:
-                queue.insert(0, [current, i])
+        for i in range(0, len(nums)):
+            current = nums[i]
+            remaining = target - current
+
+            if current in frequency:
+                result += frequency[current]
+                frequency[remaining] += 1
             else:
-                while len(queue) != 0 and current > queue[0][0]:
-                    popped_element = queue.pop(0)
-                    result[popped_element[1]] = current
+                frequency[remaining] += 1
+        return result
 
-                queue.insert(0, [current, i])
 
 my_sol = Solution()
 
-nums = [1,2,1]
-print(my_sol.nextGreaterElements(nums)) #[2,-1,2]
+A = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5]
+target = 8
+print(my_sol.threeSumMulti(A, target)) #20
 
-nums = [1,2,3,2,1]
-print(my_sol.nextGreaterElements(nums)) #[2,3,-1,3,2]
+A = [1,1,2,2,2,2]
+target = 5
+print(my_sol.threeSumMulti(A, target)) #12
 
-nums = [1,2,3,4,3]
-print(my_sol.nextGreaterElements(nums)) #[2,3,4,-1,4]
+A = [0,2,0]
+target = 2
+print(my_sol.threeSumMulti(A, target)) #1
+
+A = [0,2,0,0]
+target = 2
+print(my_sol.threeSumMulti(A, target)) #3
