@@ -32,7 +32,6 @@ class Solution(object):
         result = result % MOD
         return result
 
-
 my_sol = Solution()
 
 A = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5]
@@ -42,3 +41,11 @@ print(my_sol.threeSumMulti(A, target)) #20
 A = [1,1,2,2,2,2]
 target = 5
 print(my_sol.threeSumMulti(A, target)) #12
+
+A = [0,2,0]
+target = 2
+print(my_sol.threeSumMulti(A, target)) #1
+
+A = [0,2,0,0]
+target = 2
+print(my_sol.threeSumMulti(A, target)) #3
