@@ -1,63 +1,59 @@
-# Given an integer array A, and an integer target, return the number of tuples i, j, k
-# such that i < j < k and A[i] + A[j] + A[k] == target.
+# Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
 #
-# As the answer can be very large, return it modulo 10^9 + 7.
-from collections import defaultdict
+#     Integers in each row are sorted in ascending from left to right.
+#     Integers in each column are sorted in ascending from top to bottom.
 
-
-class Solution(object):
-    def threeSumMulti(self, A, target):
+class Solution:
+    def searchMatrix(self, matrix, target):
         """
-        :type A: List[int]
+        :type matrix: List[List[int]]
         :type target: int
-        :rtype: int
+        :rtype: bool
         """
-        length_of_nums = len(A)
-        result = 0
+        num_rows = len(matrix)
+        if num_rows == 0:
+            return False
 
-        for k in range(0, length_of_nums):
-            current = A[k]
-            new_target = target - current
-            new_nums = A[k+1:]
+        num_cols = len(matrix[0])
+        if num_cols == 0:
+            return False
 
-            count = self.two_sums(new_nums, new_target)
-            result += count
+        # Start at the top right corner
+        row = 0
+        col = num_cols - 1
 
-        MOD = 10 ** 9 + 7
-        result = result % MOD
-        return result
+        while row < num_rows and col > -1:
+            element = matrix[row][col]
 
+            # if the target is greater than the value in current position, then the target can not be in current row
+            # because the row is sorted
+            if target > element:
+                row += 1
 
-    def two_sums(self, nums, target):
-        frequency = defaultdict(int)
-        result = 0
+            # if the target is less than the value in current position, then the target can not be in current column
+            # because the column is sorted
+            elif target < element:
+                col -= 1
 
-        for i in range(0, len(nums)):
-            current = nums[i]
-            remaining = target - current
-
-            if current in frequency:
-                result += frequency[current]
-                frequency[remaining] += 1
-            else:
-                frequency[remaining] += 1
-        return result
-
+            elif target == element:
+                return True
+        return False
 
 my_sol = Solution()
 
-A = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5]
-target = 8
-print(my_sol.threeSumMulti(A, target)) #20
+matrix = [
+  [1,   4,  7, 11, 15],
+  [2,   5,  8, 12, 19],
+  [3,   6,  9, 16, 22],
+  [10, 13, 14, 17, 24],
+  [18, 21, 23, 26, 30]
+]
 
-A = [1,1,2,2,2,2]
 target = 5
-print(my_sol.threeSumMulti(A, target)) #12
+print(my_sol.searchMatrix(matrix, target))
 
-A = [0,2,0]
-target = 2
-print(my_sol.threeSumMulti(A, target)) #1
+target = 20
+print(my_sol.searchMatrix(matrix, target))
 
-A = [0,2,0,0]
-target = 2
-print(my_sol.threeSumMulti(A, target)) #3
+target = 0
+print(my_sol.searchMatrix([[]], target))

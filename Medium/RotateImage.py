@@ -7,25 +7,27 @@ class Solution:
         self.print_matrix(matrix)
 
         #Find transpose
-        size = len(matrix[0])
-        for i in range(0, size):
-            for j in range(i+1, size):
+        for i in range(0, len(matrix)):
+            for j in range(0, len(matrix[0])):
+                if i == j:
+                    break
+
                 temp = matrix[i][j]
                 matrix[i][j] = matrix[j][i]
                 matrix[j][i] = temp
-
         self.print_matrix(matrix)
 
         # For every row, reverse the columns
-        for i in range(0, size):
-            j = 0
-            k = size - 1
-            while j < k:
-                temp = matrix[i][j]
-                matrix[i][j] = matrix[i][k]
-                matrix[i][k] = temp
-                j += 1
-                k -= 1
+        for i in range(0, len(matrix)):
+            begin = 0
+            end = len(matrix[0]) - 1
+
+            while begin != end:
+                temp = matrix[i][begin]
+                matrix[i][begin] = matrix[i][end]
+                matrix[i][end] = temp
+                begin += 1
+                end -= 1
         self.print_matrix(matrix)
 
     def print_matrix(self, matrix):
@@ -41,3 +43,6 @@ matrix = [
   [7,8,9]
 ]
 my_sol.rotate(matrix)
+# [7, 4, 1]
+# [8, 5, 2]
+# [9, 6, 3]
