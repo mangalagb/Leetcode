@@ -1,63 +1,58 @@
-# Given an integer array A, and an integer target, return the number of tuples i, j, k
-# such that i < j < k and A[i] + A[j] + A[k] == target.
-#
-# As the answer can be very large, return it modulo 10^9 + 7.
-from collections import defaultdict
-
+#In an array A of 0s and 1s, how many non-empty subarrays have sum S?
 
 class Solution(object):
-    def threeSumMulti(self, A, target):
+    def numSubarraysWithSum(self, A, S):
         """
         :type A: List[int]
-        :type target: int
+        :type S: int
         :rtype: int
         """
-        length_of_nums = len(A)
-        result = 0
+        begin = -1
+        end = 0
+        current_sum = 0
+        count = 0
+        length_of_array = len(A)
+        array_end_reached = False
 
-        for k in range(0, length_of_nums):
-            current = A[k]
-            new_target = target - current
-            new_nums = A[k+1:]
+        while begin != end:
+            if not array_end_reached and end < length_of_array:
+                current = A[end]
+                current_sum += current
 
-            count = self.two_sums(new_nums, new_target)
-            result += count
+                if end + 1 == length_of_array:
+                    array_end_reached = True
 
-        MOD = 10 ** 9 + 7
-        result = result % MOD
-        return result
+            if current_sum <= S and not array_end_reached:
+                end += 1
+            elif current_sum > S or (array_end_reached and current_sum == S):
+                begin += 1
+                begin_num = A[begin]
+                current_sum -= begin_num
+            elif array_end_reached and current_sum < S:
+                break
 
-
-    def two_sums(self, nums, target):
-        frequency = defaultdict(int)
-        result = 0
-
-        for i in range(0, len(nums)):
-            current = nums[i]
-            remaining = target - current
-
-            if current in frequency:
-                result += frequency[current]
-                frequency[remaining] += 1
-            else:
-                frequency[remaining] += 1
-        return result
-
+            if current_sum == S:
+                count += 1
+        return count
 
 my_sol = Solution()
 
-A = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5]
-target = 8
-print(my_sol.threeSumMulti(A, target)) #20
+A = [1,0,1,0,1]
+S = 2
+print(my_sol.numSubarraysWithSum(A, S)) #4
 
-A = [1,1,2,2,2,2]
-target = 5
-print(my_sol.threeSumMulti(A, target)) #12
+A = [1,0,0,0,1]
+S = 2
+print(my_sol.numSubarraysWithSum(A, S)) #1
 
-A = [0,2,0]
-target = 2
-print(my_sol.threeSumMulti(A, target)) #1
+A = [0,0,0,0,0]
+S = 2
+print(my_sol.numSubarraysWithSum(A, S)) #0
 
-A = [0,2,0,0]
-target = 2
-print(my_sol.threeSumMulti(A, target)) #3
+A = []
+S = 2
+print(my_sol.numSubarraysWithSum(A, S)) #0
+
+# A = [0,0,0,0,0]
+# S = 0
+# print(my_sol.numSubarraysWithSum(A, S)) #15
