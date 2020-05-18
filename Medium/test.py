@@ -1,0 +1,87 @@
+# Given a positive 32-bit integer n, you need to find the smallest 32-bit integer which has exactly the
+# same digits existing in the integer n and is greater in value than n. If no such positive 32-bit
+# integer exists, you need to return -1.
+
+class Solution(object):
+    def nextGreaterElement(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        nums = [int(i) for i in str(n)]
+        queue = []
+        next_greater_element = None
+        current_element = None
+
+        for i in range(len(nums)-1, -1, -1):
+            current = nums[i]
+            current_element = [current, i]
+            if len(queue) == 0:
+                queue.insert(0, [current, i])
+
+            else:
+                top = queue[0]
+                if current > top[0]:
+                    queue.insert(0, [current, i])
+                else:
+                    while len(queue) != 0 and current < queue[0][0]:
+                        next_greater_element = queue.pop(0)
+
+                    if next_greater_element:
+                        break
+                    queue.insert(0, [current, i])
+        # Exchange
+        if next_greater_element:
+            index1 = current_element[1]
+            num1 = current_element[0]
+
+            index2 = next_greater_element[1]
+            num2 = next_greater_element[0]
+
+            nums[index1] = num2
+            nums[index2] = num1
+        else:
+            return -1
+
+        result = nums[:current_element[1] + 1]
+        remaining_elements = sorted(nums[current_element[1] + 1:])
+        for remaining_num in remaining_elements:
+            result.append(remaining_num)
+
+        answer = 0
+        for number in result:
+            answer = (answer * 10) + number
+
+        if answer > 2 ** 31:
+            return -1
+        return answer
+
+
+my_sol = Solution()
+
+num = 2147483647
+print(my_sol.nextGreaterElement(num))  # -1
+
+num = 230241
+print(my_sol.nextGreaterElement(num))  # 230412
+
+num = 123
+print(my_sol.nextGreaterElement(num))  # 132
+
+num = 143
+print(my_sol.nextGreaterElement(num)) #314
+
+num = 1432
+print(my_sol.nextGreaterElement(num)) # 2134
+
+num = 500
+print(my_sol.nextGreaterElement(num)) #-1
+
+num = 506
+print(my_sol.nextGreaterElement(num)) #560
+
+num = 1234
+print(my_sol.nextGreaterElement(num)) #1243
+
+num = 101
+print(my_sol.nextGreaterElement(num)) #110
