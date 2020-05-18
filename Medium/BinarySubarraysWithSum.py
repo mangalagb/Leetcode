@@ -7,35 +7,7 @@ class Solution(object):
         :type S: int
         :rtype: int
         """
-        begin = -1
-        end = 0
-        current_sum = 0
-        count = 0
-        length_of_array = len(A)
-        array_end_reached = False
-
-        while begin != end:
-            if not array_end_reached and end < length_of_array:
-                current = A[end]
-                current_sum += current
-
-                if end +1 == length_of_array:
-                    array_end_reached = True
-
-            if current_sum == S:
-                count += 1
-                end += 1
-
-            elif current_sum < S:
-                end += 1
-            elif current_sum > S:
-                begin += 1
-                begin_num = A[begin]
-                current_sum -= begin_num
-
-                if current_sum == S:
-                    count += 1
-        return count
+        sum_count = {}
 
 
 

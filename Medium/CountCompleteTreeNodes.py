@@ -6,6 +6,16 @@
 # nodes inclusive at the last level h.
 
 # Definition for a binary tree node.
+#
+
+#     A fully completed tree has node number: count = 2 ^ depth - 1
+#     for example: [1,2,3]
+#     depth is 2
+#     count = (2 ^ 2 )- 1 = 3
+#     Compare left height and right height, if equal, use the formula, otherwise recurvisely search left and right at next level
+#     The search pattern is very similar to binary search, the difference of heights ethier exsits in left side, or right side
+#     Due to the reason stated in point 3, the time complexity is h ^ 2, there is h times for each level, and h times for calculating height at each level
+
 class TreeNode(object):
     def __init__(self, x):
         self.val = x
@@ -18,20 +28,28 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
-        current = root
-        stack = []
-        inorder = []
+        left_depth = self.get_left_depth(root)
+        right_depth = self.get_right_depth(root)
 
-        while current or len(stack) != 0:
-            while current:
-                stack.append(current)
-                current = current.left
+        if left_depth == right_depth:
+            return (2 ** left_depth) -1
 
-            node = stack.pop()
-            inorder.append(node.val)
-            current = node.right
+        number_of_nodes = 1 + self.countNodes(root.left) + self.countNodes(root.right)
+        return number_of_nodes
 
-        return len(inorder)
+    def get_left_depth(self, node):
+        depth = 0
+        while node:
+            depth += 1
+            node = node.left
+        return depth
+
+    def get_right_depth(self, node):
+        depth = 0
+        while node:
+            depth += 1
+            node = node.right
+        return depth
 
 
     def make_tree(self):
@@ -54,4 +72,4 @@ class Solution(object):
 
 my_sol = Solution()
 root = my_sol.make_tree()
-my_sol.countNodes(root)
+print(my_sol.countNodes(root))
