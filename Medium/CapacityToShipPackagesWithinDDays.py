@@ -15,6 +15,33 @@ class Solution(object):
         :rtype: int
         """
         print(weights)
+        max_weight = max(weights)
+        result = self.is_weight_possible(max_weight, weights, D)
+        return result
+
+    def is_weight_possible(self, ship_capacity, weights, D):
+        days = 0
+        running_weight = 0
+        i = 0
+
+        while days < D:
+            while running_weight <= ship_capacity and i < len(weights):
+                running_weight += weights[i]
+                i += 1
+
+            if running_weight > ship_capacity:
+                days += 1
+                running_weight = 0
+                i -= 1
+
+        if i >= len(weights):
+            return True
+        else:
+            return False
+
+
+
+
 
 my_sol = Solution()
 
