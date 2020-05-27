@@ -14,53 +14,37 @@ class Solution(object):
         :type s: str
         :rtype: str
         """
-        stack = []
-        number_of_groups = 0
+        character_stack = []
+        number_stack = []
         number = ""
-        ans = ""
-        push_to_stack = False
-        nested_group = False
 
-        for character in s:
+        for i in range(0, len(s)):
+            character = s[i]
+
             if character.isnumeric():
                 number += character
             elif character == "[":
-                stack.insert(0, int(number))
+                number_stack.insert(0, int(number))
                 number = ""
-                number_of_groups += 1
-                stack.insert(0, "[")
-                push_to_stack = True
+                character_stack.insert(0, "[")
             elif character == "]":
-                push_to_stack = False
-                number_of_groups -= 1
-                if number_of_groups != 0:
-                    nested_group = True
-
                 word = ""
-                while stack[0] != "[":
-                    word = stack.pop(0) + word
+                while character_stack[0] != "[":
+                    element = character_stack.pop(0)
+                    word = element + word
 
-                # Discard the [
-                stack.pop(0)
-                number_of_times = stack.pop(0)
-
-                if number_of_groups > 0 or nested_group:
-                    previous_word = ans
-                    new_word = word + previous_word
-                    ans = new_word * number_of_times
-                else:
-                    ans = ans + (word * number_of_times)
-
-                #Reset flag
-                if number_of_groups == 0:
-                    nested_group = False
-            elif push_to_stack:
-                stack.insert(0, character)
+                # Remove the [
+                character_stack.pop(0)
+                number_of_times = number_stack.pop(0)
+                new_word = word * number_of_times
+                character_stack.insert(0, new_word)
             else:
-                ans = ans + character
+                character_stack.insert(0, character)
 
-        return ans
-
+        result = ""
+        for value in character_stack:
+            result = value + result
+        return result
 
 
 my_sol = Solution()

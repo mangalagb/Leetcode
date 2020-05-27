@@ -1,87 +1,80 @@
-# Given a positive 32-bit integer n, you need to find the smallest 32-bit integer which has exactly the
-# same digits existing in the integer n and is greater in value than n. If no such positive 32-bit
-# integer exists, you need to return -1.
+# Given an encoded string, return its decoded string.
+#
+# The encoding rule is: k[encoded_string], where the encoded_string inside the square brackets is being repeated
+# exactly k times. Note that k is guaranteed to be a positive integer.
+#
+# You may assume that the input string is always valid; No extra white spaces, square brackets are well-formed, etc.
+#
+# Furthermore, you may assume that the original data does not contain any digits and that digits are only for
+# those repeat numbers, k. For example, there won't be input like 3a or 2[4].
 
 class Solution(object):
-    def nextGreaterElement(self, n):
+    def decodeString(self, s):
         """
-        :type n: int
-        :rtype: int
+        :type s: str
+        :rtype: str
         """
-        nums = [int(i) for i in str(n)]
-        queue = []
-        next_greater_element = None
-        current_element = None
+        stack = []
+        number_of_groups = 0
+        number = ""
+        ans = ""
+        push_to_stack = False
+        nested_group = False
+        nested_ans = None
 
-        for i in range(len(nums)-1, -1, -1):
-            current = nums[i]
-            current_element = [current, i]
-            if len(queue) == 0:
-                queue.insert(0, [current, i])
+        for character in s:
+            if character.isnumeric():
+                number += character
+            elif character == "[":
+                stack.insert(0, int(number))
+                number = ""
+                number_of_groups += 1
+                stack.insert(0, "[")
+                push_to_stack = True
+            elif character == "]":
+                push_to_stack = False
+                number_of_groups -= 1
 
-            else:
-                top = queue[0]
-                if current > top[0]:
-                    queue.insert(0, [current, i])
+                if nested_group or number_of_groups > 0:
+                    nested_group = True
+
+                word = ""
+                while stack[0] != "[":
+                    word = stack.pop(0) + word
+
+                # Discard the [
+                stack.pop(0)
+                number_of_times = stack.pop(0)
+
+                if nested_group:
+                    if not nested_ans:
+                        new_word = word * number_of_times
+                        nested_ans = new_word
+                    else:
+                        new_word = ""
+                        for i in range(0, number_of_times):
+                            new_word = new_word + (word + nested_ans)
+                        nested_ans = new_word
                 else:
-                    while len(queue) != 0 and current < queue[0][0]:
-                        next_greater_element = queue.pop(0)
+                    res = word * number_of_times
+                    ans = ans + res
 
-                    if next_greater_element:
-                        break
-                    queue.insert(0, [current, i])
-        # Exchange
-        if next_greater_element:
-            index1 = current_element[1]
-            num1 = current_element[0]
+                if nested_group and number_of_groups == 0:
+                    ans = ans + nested_ans
 
-            index2 = next_greater_element[1]
-            num2 = next_greater_element[0]
+            elif push_to_stack:
+                if not nested_group:
+                    stack.insert(0, character)
+                else:
+                    nested_ans = nested_ans + character
+            else:
+                ans = ans + character
 
-            nums[index1] = num2
-            nums[index2] = num1
-        else:
-            return -1
+        return ans
 
-        result = nums[:current_element[1] + 1]
-        remaining_elements = sorted(nums[current_element[1] + 1:])
-        for remaining_num in remaining_elements:
-            result.append(remaining_num)
-
-        answer = 0
-        for number in result:
-            answer = (answer * 10) + number
-
-        if answer > 2 ** 31:
-            return -1
-        return answer
 
 
 my_sol = Solution()
 
-num = 2147483647
-print(my_sol.nextGreaterElement(num))  # -1
-
-num = 230241
-print(my_sol.nextGreaterElement(num))  # 230412
-
-num = 123
-print(my_sol.nextGreaterElement(num))  # 132
-
-num = 143
-print(my_sol.nextGreaterElement(num)) #314
-
-num = 1432
-print(my_sol.nextGreaterElement(num)) # 2134
-
-num = 500
-print(my_sol.nextGreaterElement(num)) #-1
-
-num = 506
-print(my_sol.nextGreaterElement(num)) #560
-
-num = 1234
-print(my_sol.nextGreaterElement(num)) #1243
-
-num = 101
-print(my_sol.nextGreaterElement(num)) #110
+s = "3[a]2[b4[F]c]"
+print(my_sol.decodeString(s))  # aaabFFFFcbFFFFc
