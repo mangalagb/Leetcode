@@ -2,6 +2,9 @@
 # 1) find transpose of matrix
 # 2) For every row, reverse the columns
 
+# For Anticlockwise rotation, transpose step would remain the same.
+# In the last step instead of flipping the columns, flip the rows vertically.
+
 class Solution:
     def rotate(self, matrix):
         self.print_matrix(matrix)

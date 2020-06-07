@@ -51,9 +51,6 @@ class Solution(object):
                 return child
         return -1
 
-
-
-
 my_sol = Solution()
 adj_list = my_sol.create_adj_list()
 my_sol.do_BFS(adj_list)
