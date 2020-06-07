@@ -14,17 +14,29 @@ class Solution(object):
         :type D: int
         :rtype: int
         """
-        print(weights)
-        max_weight = max(weights)
-        result = self.is_weight_possible(max_weight, weights, D)
-        return result
+        new_ship_capacity = -1
+        low = max(weights)
+        high = sum(weights)
+        while low <= high:
+            mid_value = (high - low) // 2
+            mid = low + mid_value
+            capacity_possible = self.is_weight_possible(mid, weights, D)
+
+            if not capacity_possible:
+                low = mid + 1
+            else:
+                new_ship_capacity = mid
+                high = mid - 1
+
+        return new_ship_capacity
+
 
     def is_weight_possible(self, ship_capacity, weights, D):
         days = 0
         running_weight = 0
         i = 0
 
-        while days < D:
+        while days < D and i < len(weights):
             while running_weight <= ship_capacity and i < len(weights):
                 running_weight += weights[i]
                 i += 1
@@ -40,11 +52,8 @@ class Solution(object):
             return False
 
 
-
-
-
 my_sol = Solution()
 
 weights = [1,2,3,4,5,6,7,8,9,10]
 D = 5
-my_sol.shipWithinDays(weights, D)
+print(my_sol.shipWithinDays(weights, D))
