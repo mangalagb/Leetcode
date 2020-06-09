@@ -8,73 +8,43 @@
 # Furthermore, you may assume that the original data does not contain any digits and that digits are only for
 # those repeat numbers, k. For example, there won't be input like 3a or 2[4].
 
+class TreeNode(object):
+    def __init__(self, x = None):
+        self.val = x
+        self.left = None
+        self.right = None
+
+        
 class Solution(object):
     def decodeString(self, s):
         """
         :type s: str
         :rtype: str
         """
-        stack = []
-        number_of_groups = 0
-        number = ""
-        ans = ""
-        push_to_stack = False
-        nested_group = False
-        nested_ans = None
+        print("hello")
 
-        for character in s:
-            if character.isnumeric():
-                number += character
-            elif character == "[":
-                stack.insert(0, int(number))
-                number = ""
-                number_of_groups += 1
-                stack.insert(0, "[")
-                push_to_stack = True
-            elif character == "]":
-                push_to_stack = False
-                number_of_groups -= 1
+    def make_tree(self):
+        root = TreeNode(8)
+        node1 = TreeNode(3)
+        node2 = TreeNode(1)
+        node3 = TreeNode(6)
+        node4 = TreeNode(10)
+        node5 = TreeNode(14)
+        node6 = TreeNode(13)
 
-                if nested_group or number_of_groups > 0:
-                    nested_group = True
+        root.left = node1
+        root.right = node4
 
-                word = ""
-                while stack[0] != "[":
-                    word = stack.pop(0) + word
+        node1.left = node2
+        node1.right = node3
 
-                # Discard the [
-                stack.pop(0)
-                number_of_times = stack.pop(0)
-
-                if nested_group:
-                    if not nested_ans:
-                        new_word = word * number_of_times
-                        nested_ans = new_word
-                    else:
-                        new_word = ""
-                        for i in range(0, number_of_times):
-                            new_word = new_word + (word + nested_ans)
-                        nested_ans = new_word
-                else:
-                    res = word * number_of_times
-                    ans = ans + res
-
-                if nested_group and number_of_groups == 0:
-                    ans = ans + nested_ans
-
-            elif push_to_stack:
-                if not nested_group:
-                    stack.insert(0, character)
-                else:
-                    nested_ans = nested_ans + character
-            else:
-                ans = ans + character
-
-        return ans
+        node4.right = node5
+        node5.left = node6
+        return root
 
 
 
 my_sol = Solution()
 
-s = "3[a]2[b4[F]c]"
-print(my_sol.decodeString(s))  # aaabFFFFcbFFFFc
+nodes = [1,2,3,4,5,6]
+print(my_sol.make_tree(nodes))

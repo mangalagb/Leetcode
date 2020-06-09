@@ -40,16 +40,16 @@ class Solution(object):
             visited[node] = True
             print(node, sep=" ")
 
-            child_node = self.get_unvisited_nodes(node, adj_list, visited)
-            if child_node != -1:
-                queue.append(child_node)
+            unvisited_children = self.get_unvisited_nodes(adj_list[node], visited)
+            if len(unvisited_children) > 0:
+                queue.extend(unvisited_children)
 
-    def get_unvisited_nodes(self, node, adj_list, visited):
-        children = adj_list[node]
+    def get_unvisited_nodes(self, children, visited):
+        unvisited_children = []
         for child in children:
             if not visited[child]:
-                return child
-        return -1
+                unvisited_children.append(child)
+        return unvisited_children
 
 my_sol = Solution()
 adj_list = my_sol.create_adj_list()
