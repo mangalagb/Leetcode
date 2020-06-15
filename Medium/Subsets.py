@@ -1,3 +1,6 @@
+# Given a set of distinct integers, nums, return all possible subsets (the power set).
+# Note: The solution set must not contain duplicate subsets.
+
 #https://softwareengineering.stackexchange.com/questions/256141/find-all-possible-subarrays-of-an-array
 
 # Lets take an array of size n. There 2n possible subarrays of this array. Lets take the example array of

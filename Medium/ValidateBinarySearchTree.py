@@ -15,27 +15,47 @@ class TreeNode(object):
         self.right = None
 
 class Solution(object):
-    def isValidBST(self, numbers):
+    def isValidBST(self, root):
         """
         :type numbers: node values
         :rtype: bool
         """
 
-        if not numbers:
-            return False
+        stack = []
+        current = root
+        prev = None
 
-        root = TreeNode(numbers[0])
+        while True:
+            if current is not None:
+                stack.append(current)
+                current = current.left
 
-        self.construct_BST(root, numbers[1:])
+            elif stack:
+                current = stack.pop()
+                # print(current.val, end=" ")
 
-    def construct_BST(self, root, numbers):
-        print("yo")
+                # check valid BST
+                if prev and prev.val >= current.val:
+                    return False
+                else:
+                    prev = current
 
+                current = current.right
 
-
+            else:
+                break
         return True
+
+    def make_tree(self):
+        root = TreeNode(2)
+        node1 = TreeNode(1)
+        node2 = TreeNode(3)
+
+        root.left = node1
+        root.right = node2
+        return root
 
 my_sol = Solution()
 
-n1 = [2,1,3]
-print(my_sol.isValidBST(n1))
+root = my_sol.make_tree()
+print(my_sol.isValidBST(root))
