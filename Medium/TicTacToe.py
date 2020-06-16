@@ -12,7 +12,7 @@
 #  board. We only need to keep a count for each row and column. If at any
 # time a row or column matches the size of the board then that player has won.
 #
-# To keep track of which player, I add one for Player1 and -1 for Player2.
+# To keep track of which player, I add 1 for Player1 and -1 for Player2.
 # There are two additional variables to keep track of the count of the
 # diagonals. Each time a player places a piece we just need to check the
 # count of that row, column, diagonal and anti-diagonal.
