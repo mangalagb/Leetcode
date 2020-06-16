@@ -8,15 +8,15 @@ class Solution:
         local_sum = 0
 
         for i in range(0, len(nums)):
-            current_num = nums[i]
+            current = nums[i]
 
-            if current_num + local_sum < current_num:
-                local_sum = nums[i]
+            if current + local_sum < current:
+                local_sum = current
             else:
-                local_sum += current_num
+                local_sum += current
 
             if total_sum is None:
-                total_sum = current_num
+                total_sum = current
             elif local_sum > total_sum:
                 total_sum = local_sum
         return total_sum

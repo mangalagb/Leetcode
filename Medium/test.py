@@ -1,80 +1,62 @@
-# Given an encoded string, return its decoded string.
-#
-# The encoding rule is: k[encoded_string], where the encoded_string inside the square brackets is being repeated
-# exactly k times. Note that k is guaranteed to be a positive integer.
-#
-# You may assume that the input string is always valid; No extra white spaces, square brackets are well-formed, etc.
-#
-# Furthermore, you may assume that the original data does not contain any digits and that digits are only for
-# those repeat numbers, k. For example, there won't be input like 3a or 2[4].
+# Definition for a binary tree node.
+class TreeNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.left = None
+        self.right = None
 
 class Solution(object):
-    def decodeString(self, s):
+    def lowestCommonAncestor(self, root, p, q):
         """
-        :type s: str
-        :rtype: str
+        :type root: TreeNode
+        :type p: TreeNode
+        :type q: TreeNode
+        :rtype: TreeNode
         """
-        stack = []
-        number_of_groups = 0
-        number = ""
-        ans = ""
-        push_to_stack = False
-        nested_group = False
-        nested_ans = None
 
-        for character in s:
-            if character.isnumeric():
-                number += character
-            elif character == "[":
-                stack.insert(0, int(number))
-                number = ""
-                number_of_groups += 1
-                stack.insert(0, "[")
-                push_to_stack = True
-            elif character == "]":
-                push_to_stack = False
-                number_of_groups -= 1
+        if not root or p.val == root.val or q.val == root.val:
+            return root
 
-                if nested_group or number_of_groups > 0:
-                    nested_group = True
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
 
-                word = ""
-                while stack[0] != "[":
-                    word = stack.pop(0) + word
+        if left and right:
+            return root
+        elif left:
+            return left
+        elif right:
+            return right
+        else:
+            return None
 
-                # Discard the [
-                stack.pop(0)
-                number_of_times = stack.pop(0)
+    def make_tree1(self):
+        root = TreeNode(3)
+        node1 = TreeNode(5)
+        node2 = TreeNode(1)
+        node3 = TreeNode(6)
+        node4 = TreeNode(2)
+        node5 = TreeNode(0)
+        node6 = TreeNode(8)
+        node7 = TreeNode(7)
+        node8 = TreeNode(4)
 
-                if nested_group:
-                    if not nested_ans:
-                        new_word = word * number_of_times
-                        nested_ans = new_word
-                    else:
-                        new_word = ""
-                        for i in range(0, number_of_times):
-                            new_word = new_word + (word + nested_ans)
-                        nested_ans = new_word
-                else:
-                    res = word * number_of_times
-                    ans = ans + res
+        root.left = node1
+        root.right = node2
 
-                if nested_group and number_of_groups == 0:
-                    ans = ans + nested_ans
+        node1.left = node3
+        node1.right = node4
 
-            elif push_to_stack:
-                if not nested_group:
-                    stack.insert(0, character)
-                else:
-                    nested_ans = nested_ans + character
-            else:
-                ans = ans + character
+        node4.left = node7
+        node4.right = node8
 
-        return ans
-
-
+        node2.left = node5
+        node2.right = node6
+        return root
 
 my_sol = Solution()
 
-s = "3[a]2[b4[F]c]"
-print(my_sol.decodeString(s))  # aaabFFFFcbFFFFc
+root = my_sol.make_tree1()
+print(my_sol.lowestCommonAncestor(root, TreeNode(5), TreeNode(1)).val)
+
+print(my_sol.lowestCommonAncestor(root, TreeNode(5), TreeNode(4)).val)
+

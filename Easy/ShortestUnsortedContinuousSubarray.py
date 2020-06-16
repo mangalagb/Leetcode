@@ -77,12 +77,6 @@ class Solution(object):
             result = right_boundary - left_boundary + 1
         return result
 
-
-
-
-
-
-
 my_sol = Solution()
 
 nums = [2, 6, 4, 8, 10, 9, 15]

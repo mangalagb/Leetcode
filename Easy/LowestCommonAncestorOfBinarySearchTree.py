@@ -38,7 +38,7 @@ class Solution(object):
             right_result = self.find_lca(node.right, p, q, lca)
         else:
             left_result = self.find_lca(node.left, p,q, lca)
-            right_result = self.find_lca(node.left, p, q, lca)
+            right_result = self.find_lca(node.right, p, q, lca)
 
         if left_result and right_result:
             return node
