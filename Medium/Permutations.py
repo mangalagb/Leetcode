@@ -1,3 +1,5 @@
+# Given a collection of distinct integers, return all possible permutations.
+
 def find_combinations(nums):
     length = len(nums)
 
@@ -28,4 +30,7 @@ def permute(nums):
 
 
 nums = [1,2]
-print(len(permute(nums)))
+print(permute(nums))
+
+nums = [1,2,3]
+print(permute(nums))

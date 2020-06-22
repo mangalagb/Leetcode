@@ -4,6 +4,7 @@
 # Each node may have a next larger value: for node_i, next_larger(node_i) is the node_j.val
 # such that j > i, node_j.val > node_i.val, and j is the smallest possible choice.
 # If such a j does not exist, the next larger value is 0.
+# Return an array of integers answer, where answer[i] = next_larger(node_{i+1}).
 
 # Definition for singly-linked list.
 class ListNode(object):
