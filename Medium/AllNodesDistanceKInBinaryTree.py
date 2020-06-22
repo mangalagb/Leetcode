@@ -4,8 +4,6 @@
 # The answer can be returned in any order.
 
 # Definition for a binary tree node.
-import sys
-
 
 class TreeNode(object):
     def __init__(self, x):

@@ -46,8 +46,8 @@ class Solution:
 
 my_sol = Solution()
 
-# intervals = [Interval(0,30), Interval(15,20), Interval(5,10)]
-# print(my_sol.minMeetingRooms(intervals))
+intervals = [Interval(0,30), Interval(15,20), Interval(5,10)]
+print(my_sol.minMeetingRooms(intervals))
 #
 # intervals = [Interval(7,10), Interval(2,4)]
 # print(my_sol.minMeetingRooms(intervals))

@@ -13,6 +13,9 @@
 # the data structure.
 #     double findMedian() - Return the median of all elements so far.
 
+# We use 2 heaps - left and right. Left contains elements that are less than the effective median.
+# And right contains elements greater than the current median.
+# After processing an incoming element, the number of elements in heaps differ utmost by 1 element. When both heaps contain same number of elements, we pick average of heaps root data as effective median. When the heaps are not balanced, we select effective median from the root of heap containing more elements.
 
 from heapq import *
 

@@ -1,4 +1,19 @@
 class Solution:
+    def find_time(self, time):
+        digits = [int(digit) for digit in time if digit.isdigit()]
+        uniques = sorted(set(digits))
+        pos = [uniques.index(digit) for digit in digits]
+
+        for i in range(3, -1, -1):
+            pos[i] += 1
+            if pos[i] < len(uniques):
+                digits[i] = uniques[pos[i]]
+                if digits[2] < 6 and digits[0] * 10 + digits[1] < 24:
+                    return "{}{}:{}{}".format(*digits)
+            digits[i] = uniques[0]
+
+        return "no solution"
+
     def nextClosestTime(self, time):
 
         times = time.split(":")
@@ -88,4 +103,4 @@ my_sol = Solution()
 # print(my_sol.nextClosestTime(time))
 
 time = "20:56"
-print(my_sol.nextClosestTime(time))
+print(my_sol.find_time(time))
