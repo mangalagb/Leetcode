@@ -22,5 +22,5 @@ class Solution:
 
 my_sol = Solution()
 
-nums = [1,2,3,4]
+nums = [10,2,3,4]
 print(my_sol.productExceptSelf(nums))
