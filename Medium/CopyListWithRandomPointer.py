@@ -35,10 +35,9 @@ class Solution(object):
             if current.random is not None:
                 new_random_node = RandomListNode(current.random.label)
 
-
+            #Add current to visited
             if current_node.label not in visited_nodes:
                 visited_nodes[current_node.label] = current_node
-
 
             if new_next_node is not None:
                 if new_next_node.label in visited_nodes:
@@ -55,7 +54,6 @@ class Solution(object):
                 else:
                     current_node.random = new_random_node
                     visited_nodes[new_random_node.label] = new_random_node
-            visited_nodes[current_node.label] = current_node
 
             current = current.next
 

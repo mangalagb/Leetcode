@@ -15,7 +15,9 @@
 
 # We use 2 heaps - left and right. Left contains elements that are less than the effective median.
 # And right contains elements greater than the current median.
-# After processing an incoming element, the number of elements in heaps differ utmost by 1 element. When both heaps contain same number of elements, we pick average of heaps root data as effective median. When the heaps are not balanced, we select effective median from the root of heap containing more elements.
+# After processing an incoming element, the number of elements in heaps differ utmost by 1 element.
+# When both heaps contain same number of elements, we pick average of heaps root data as effective
+# median. When the heaps are not balanced, we select effective median from the root of heap containing more elements.
 
 from heapq import *
 
@@ -23,6 +25,15 @@ class MedianFinder:
 
     def __init__(self):
         self.heaps = [], []
+
+    # Left heap is max heap.
+    # Right heap is min heap
+    # Right heap can contain n+1 elements. Left heap must contain n elements.
+    # 1) Insert new element to right by default. Since we have inserted to right, we now pop one
+    #   from right and give it to left
+    # 2) But now, left may conatin more than n elements. If so, pop from left and push to right
+    # 3) if len(left) == len(right), median = Left[last] + Right[0] /2
+    #    else, median = Large[0]
 
     def addNum(self, num):
         small, large = self.heaps

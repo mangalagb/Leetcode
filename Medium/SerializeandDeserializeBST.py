@@ -29,23 +29,14 @@ class Codec:
         :type root: TreeNode
         :rtype: str
         """
-        result = self.serialize_tree(root)
-        return result
-
-    def serialize_tree(self, node):
-        if not node:
+        if root is None:
             return "X"
 
-        result = str(node.val)
-        if not node.left and not node.right:
-            return result
+        left_tree = self.serialize(root.left)
+        right_tree = self.serialize(root.right)
 
-        if node.left and node.right:
-            left_string = self.serialize_tree(node.left)
-            right_string = self.serialize_tree(node.right)
-            result += "," + left_string + "," + right_string
-        elif
-
+        current_str = str(root.val) + "," + left_tree + "," + right_tree
+        return current_str
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -53,38 +44,21 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-
-        elements = data.split(",")
-        elements.insert(0, None)
-
-        if len(elements) == 1 or elements[1] == "X":
+        if not data:
             return None
 
-        root = self.deseriailize_helper(1, elements)
-        return root
+        queue = data.split(",")
+        return self.deserialize_helper(queue)
 
-
-    def deseriailize_helper(self, index, elements):
-        length_of_elements = len(elements) - 1
-
-        if index > length_of_elements:
+    def deserialize_helper(self, queue):
+        node_val = queue.pop(0)
+        if node_val == "X":
             return
 
-        if elements[index] == "X":
-            return
-        else:
-            node = TreeNode(int(elements[index]))
-
-            left_index = 2 * index
-            right_index = (2 * index) + 1
-
-            if left_index < length_of_elements:
-                node.left = self.deseriailize_helper(left_index, elements)
-
-            if right_index < length_of_elements:
-                node.right = self.deseriailize_helper(right_index, elements)
-
-            return node
+        node = TreeNode(int(node_val))
+        node.left = self.deserialize_helper(queue)
+        node.right = self.deserialize_helper(queue)
+        return node
 
     def make_tree(self):
         root = TreeNode(1)
