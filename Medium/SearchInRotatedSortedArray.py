@@ -72,7 +72,8 @@ def binary_search(nums, target, pivot_index):
 #nums = [4,5,6,7,0,1,2]
 #nums = [5,6,7,0,1,2,4]
 #nums = [6,7,0,1,2,4,5]
-nums = [7,0,1,2,4,5,6]
+#nums = [7,0,1,2,4,5,6]
+nums = [2,5,6,0,0,1,2]
 
 
 target = 4

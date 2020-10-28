@@ -15,34 +15,63 @@ class Solution(object):
         """
         # 1->2->3->3->4->4->5
         # 1->2->5
-        print(head.val)
 
-        indexes = []
-        counter = 1
+        if not head:
+            return None
 
-        current = head.next
-        previous = head
+        current = head
+        previous = None
+        duplicate_nodes = set()
 
-        start = None
-        end = None
+        # Find duplicate nodes
         while current is not None:
-            if current.val == previous.val and start is None:
-                start = counter
-
-            if current.val != previous.val and start is not None:
-                indexes.append([start, counter])
-                start = None
-
-            counter += 1
-            previous = current
+            if not previous:
+                previous = current
+            elif previous.val != current.val:
+                previous = current
+            else:
+                duplicate_nodes.add(current.val)
             current = current.next
 
-        print(indexes)
+        # Remove duplicate nodes
+        current = head
+        previous = None
+
+        while current:
+            if current.val in duplicate_nodes:
+                duplicate_num = current.val
+                while current and current.val == duplicate_num:
+                    current = current.next
+
+                if not current:
+                    if previous:
+                        previous.next = None
+                    else:
+                        head = None
+                elif current and previous:
+                    previous.next = current
+                # head node is duplicate
+                elif current and not previous:
+                    head = current
+
+            if current and current.val not in duplicate_nodes:
+                previous = current
+                current = current.next
+        return head
 
 
 
+    def create_list1(self):
+        #1->1
 
+        head = ListNode(1)
+        node2 = ListNode(1)
+        node3 = ListNode(3)
 
+        head.next = node2
+        node2.next = node3
+
+        return head
 
     def create_list(self):
         #1->2->3->3->4->4->5
@@ -65,5 +94,8 @@ class Solution(object):
 
 my_sol = Solution()
 
-head = my_sol.create_list()
+head = my_sol.create_list1()
 my_sol.deleteDuplicates(head)
+
+# head = my_sol.create_list()
+# my_sol.deleteDuplicates(head)

@@ -29,8 +29,8 @@ def permute(nums):
     return find_combinations(nums)
 
 
-nums = [1,2]
-print(permute(nums))
+# nums = [1,2]
+# print(permute(nums))
 
 nums = [1,2,3]
 print(permute(nums))

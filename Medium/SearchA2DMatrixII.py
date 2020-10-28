@@ -129,10 +129,13 @@ matrix = [
 ]
 
 target = 5
-print(my_sol.searchMatrix(matrix, target))
+print(my_sol.searchMatrix(matrix, target)) #True
 
 target = 20
-print(my_sol.searchMatrix(matrix, target))
+print(my_sol.searchMatrix(matrix, target)) #False
 
 target = 0
-print(my_sol.searchMatrix([[]], target))
+print(my_sol.searchMatrix([[]], target)) #False
+
+target = 13
+print(my_sol.searchMatrix(matrix, target)) #True

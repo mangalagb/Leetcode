@@ -20,6 +20,7 @@ class Solution(object):
             else:
                 char_count[character] = 1
 
+        # Max heap - max frequency character on top
         my_heap = []
         for k,v in char_count.items():
             heappush(my_heap, ((-1 * v), k))
@@ -58,12 +59,10 @@ class Solution(object):
 my_sol = Solution()
 
 str1 = "aab"
-print(my_sol.reorganizeString(str1))
-#aba
+print(my_sol.reorganizeString(str1)) #aba
 
 str1 = "aaab"
-print(my_sol.reorganizeString(str1))
+print(my_sol.reorganizeString(str1)) #""
 
 str1 = "vvvlo"
-print(my_sol.reorganizeString(str1))
-#"vlvov"
+print(my_sol.reorganizeString(str1)) #"vlvov"
