@@ -52,7 +52,7 @@ class Solution(object):
         for i in range(0, numCourses):
             graph[i] = []
 
-        # y depends on x => firsst do x then y => graph[y] = x
+        # y depends on x => first do x then y => graph[y] = x
         for course in prerequisites:
             y = course[0]
             x = course[1]

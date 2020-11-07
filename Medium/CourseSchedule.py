@@ -1,3 +1,4 @@
+
 # There are a total of n courses you have to take, labeled from 0 to n-1.
 #
 # Some courses may have prerequisites, for example to take course 0 you have to
@@ -97,15 +98,18 @@ class Solution(object):
 
 my_sol = Solution()
 
-pairs = [[1,0],[0,1]]
-print(my_sol.canFinish(2, pairs))
+# pairs = [[1,0],[0,1]]
+# print(my_sol.canFinish(2, pairs))
+#
+# pairs = [[1,0]]
+# print(my_sol.canFinish(2, pairs))
+#
+# pairs = [[3,0],[0,1]]
+# print(my_sol.canFinish(4, pairs))
+#
+# pairs = []
+# print(my_sol.canFinish(1, pairs))
 
-pairs = [[1,0]]
-print(my_sol.canFinish(2, pairs))
-
-pairs = [[3,0],[0,1]]
-print(my_sol.canFinish(4, pairs))
-
-pairs = []
-print(my_sol.canFinish(1, pairs))
+pairs = [[1,0],[2,0]]
+print(my_sol.canFinish(3, pairs))
 

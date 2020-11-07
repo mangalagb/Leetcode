@@ -1,64 +1,32 @@
-# Definition for an interval.
-class Interval:
-    def __init__(self, s=0, e=0):
-        self.start = s
-        self.end = e
+from collections import defaultdict, OrderedDict
 
 class Solution:
     def minMeetingRooms(self, intervals):
         if len(intervals) == 0:
             return 0
 
-        #Sort intervals
-        rooms = []
+        timeline = defaultdict(int)
 
+        # For every start time add 1, end time -1
         for interval in intervals:
-            temp = [i for i in range(interval.start, interval.end)]
-            rooms.append(temp)
-        rooms = sorted(rooms)
+            timeline[interval[0]] += 1
+            timeline[interval[1]] -= 1
 
-        count = 1
-        result = [rooms[0]]
-        for i in range(1, len(rooms)):
-            current_room = rooms[i]
+        # Sort timeline based on start times
+        sorted_timeline = OrderedDict(sorted(timeline.items()))
 
-            flag = True
-            for result_room in result:
-                if not set(current_room).isdisjoint(result_room):
-                    flag = flag and True
-                else:
-                    flag = False
-
-            if flag:
-                count += 1
-
-            result.append(current_room)
-        return count
-
-
-
-
-
-
-
-
+        current_room = 0
+        max_room = 0
+        for value in sorted_timeline.values():
+            current_room += value
+            max_room = max(max_room, current_room)
+        return max_room
 
 
 my_sol = Solution()
 
-intervals = [Interval(0,30), Interval(15,20), Interval(5,10)]
-print(my_sol.minMeetingRooms(intervals))
-#
-# intervals = [Interval(7,10), Interval(2,4)]
-# print(my_sol.minMeetingRooms(intervals))
-#
-# intervals = [Interval(9,10), Interval(4,9), Interval(4,17)]
-# print(my_sol.minMeetingRooms(intervals))
+intervals = [[0, 30],[5, 10],[15, 20]]
+print(my_sol.minMeetingRooms(intervals)) #2
 
-intervals = [Interval(1,5), Interval(8,12), Interval(9,13)]
-print(my_sol.minMeetingRooms(intervals))
-
-# intervals = [Interval(1,5), Interval(8,9), Interval(8,9)]
-# print(my_sol.minMeetingRooms(intervals))
-
-
+intervals = [[7,10],[2,4]]
+print(my_sol.minMeetingRooms(intervals)) #1

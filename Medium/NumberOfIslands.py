@@ -22,21 +22,22 @@ class Solution(object):
 
     def do_DFS(self, grid, row, column):
         stack = [[row, column]]
-        grid[row][column] = "x"
         row_length = len(grid)
         column_length = len(grid[0])
 
         while stack:
+            # stack.peek()
             latest_element_on_stack = stack[-1]
             row = latest_element_on_stack[0]
             column = latest_element_on_stack[1]
+
+            # Mark visited
+            grid[row][column] = "x"
 
             neighbour = self.find_unvisited_land(grid, row, column, row_length, column_length)
             if len(neighbour) == 2:
                 neighbour_row = neighbour[0]
                 neighbour_column = neighbour[1]
-
-                grid[neighbour_row][neighbour_column] = "x"
                 stack.append([neighbour_row, neighbour_column])
             else:
                 stack.pop()
