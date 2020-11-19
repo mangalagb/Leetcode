@@ -1,56 +1,78 @@
-# Given an array with n objects colored red, white or blue, sort them in-place so
-# that objects of the same color are adjacent, with the colors in the order red, white and blue.
+# Given a matrix consists of 0 and 1, find the distance of the nearest 0 for each cell.
 #
-# Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.
-#
-# Note: You are not suppose to use the library's sort function for this problem.
-
-class Solution:
-    def sortColors(self, nums):
-        if len(nums) == 0:
-            return
-
-        zero_pointer = 0
-        one_pointer = None
-        num_of_2 = 0
-        position = -1
-
-        for i in range(0, len(nums)):
-            #[2,0,1]
-            current = nums[i]
-            if current == 2:
-                num_of_2 += 1
-                continue
-
-            # swap with zero pinter position
-            if current == 0:
-                if nums[zero_pointer] == 1:
-                    nums[i] = 1
-                    one_pointer = i
-                nums[zero_pointer] = 0
-                zero_pointer += 1
-            elif current == 1:
-                if not one_pointer:
-                    if zero_pointer != i:
-                        nums[zero_pointer] = 1
-                        one_pointer = zero_pointer
-
-        two_begin_index = len(nums) - num_of_2
-        for i in range(two_begin_index, len(nums)):
-            nums[i] = 2
-        return nums
+# The distance between two adjacent cells is 1.
+import sys
 
 
-my_solution = Solution()
+class Solution(object):
+    def updateMatrix(self, matrix):
+        """
+        :type matrix: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        if not matrix:
+            return matrix
+        if not matrix[0]:
+            return matrix
 
-nums = [0, 1, 0, 1, 2]
-print(my_solution.sortColors(nums)) #[0, 0, 1, 1, 2]
+        #Store all zero elements in queue and do BFS from there
+        queue = []
 
-nums = [0,2,0,1,0,2,2,2]
-print(my_solution.sortColors(nums)) #[0, 0, 0, 1, 2, 2, 2, 2]
+        #Set all non zero elements to a dummy value
+        for i in range(0, len(matrix)):
+            for j in range(0, len(matrix[0])):
+                if matrix[i][j] != 0:
+                    matrix[i][j] = -1
+                else:
+                    queue.append([i, j, 0])
 
-nums = [2,0,2,1,1,0]
-print(my_solution.sortColors(nums)) #[0, 0, 2, 1, 2, 2]
+        #Start a BFS from every zero element and compute distance for neighbours
+        while len(queue) > 0:
+            element = queue.pop(0)
+            i = element[0]
+            j = element[1]
+            length = element[2]
 
-nums = [2, 0, 1]
-print(my_solution.sortColors(nums)) #[0, 1, 2]
+            neighbours = self.find_unvisited_neighbour(matrix, i, j)
+            for neighbour in neighbours:
+                row = neighbour[0]
+                col = neighbour[1]
+                neighbour_length = length + 1
+                matrix[row][col] = neighbour_length
+                queue.append([neighbour[0], neighbour[1], neighbour_length])
+        return matrix
+
+
+    def find_unvisited_neighbour(self, matrix, i, j):
+        neighbours = [[i - 1, j], [i + 1, j], [i, j - 1], [i, j + 1]]
+        row_len = len(matrix)
+        col_len = len(matrix[0])
+        unvisited_neighbours = []
+
+        for neighbour in neighbours:
+            row_val = neighbour[0]
+            col_val = neighbour[1]
+
+            if 0 <= row_val < row_len and 0 <= col_val < col_len and matrix[row_val][col_val] == -1:
+                unvisited_neighbours.append(neighbour)
+        return unvisited_neighbours
+
+
+my_sol = Solution()
+
+matrix = [[0,0,0],
+ [0,1,0],
+ [1,1,1]]
+print(my_sol.updateMatrix(matrix)) #[[0,0,0],
+                                    # [0,1,0],
+                                     #[1,2,1]]
+
+matrix = [[0,0,0],
+ [0,1,0],
+ [0,0,0]]
+print(my_sol.updateMatrix(matrix)) #[[[0,0,0],
+                                    # [0,1,0],
+                                    # [0,0,0]]
+
+# matrix = [[1,1,0,0,1,0,0,1,1,0],[1,0,0,1,0,1,1,1,1,1],[1,1,1,0,0,1,1,1,1,0],[0,1,1,1,0,1,1,1,1,1],[0,0,1,1,1,1,1,1,1,0],[1,1,1,1,1,1,0,1,1,1],[0,1,1,1,1,1,1,0,0,1],[1,1,1,1,1,0,0,1,1,1],[0,1,0,1,1,0,1,1,1,1],[1,1,1,0,1,0,1,1,1,1]]
+# print(my_sol.updateMatrix(matrix))

@@ -1,37 +1,54 @@
+#Given two arrays, write a function to compute their intersection.
+
+from collections import defaultdict
+
 class Solution(object):
-    def removeDuplicates(self, nums):
+    def intersect(self, nums1, nums2):
+        """
+        :type nums1: List[int]
+        :type nums2: List[int]
+        :rtype: List[int]
+        """
+        if not nums1 or not nums2:
+            return []
 
-        size_of_array = len(nums)
-        if size_of_array == 0 or size_of_array == 1:
-            return size_of_array
-
-        prev = nums[0]
-        position = 1
-        for i in range(1, size_of_array):
-            if nums[i] > prev:
-                nums[position] = nums[i]
-                prev = nums[i]
-                position += 1
+        result = self.find_elements(nums1, nums2)
+        return result
 
 
+    def find_elements(self, array1, array2):
+        num_dict = defaultdict(int)
+        for current in array1:
+            num_dict[current] += 1
 
-        print(nums)
-        print(position)
-        return position
+        match_dict = defaultdict(int)
+        for num in array2:
+            if num in num_dict:
+                if num_dict[num] != 0:
+                    num_dict[num] -= 1
+                    match_dict[num] += 1
 
+        result = []
+        for key, val in match_dict.items():
+            temp = [key] * val
+            result.extend(temp)
+        return result
 
 
 my_sol = Solution()
-l1 = [1,1,1,2]
-l2 = [0,0,1,1,1,2,2,3,3,4]
-l3 = [0,0,1,1,2,2]
-l4 = [1,2,3,4,5]
-l5 = []
-l6 = [8]
 
-my_sol.removeDuplicates(l1)
-my_sol.removeDuplicates(l2)
-my_sol.removeDuplicates(l3)
-my_sol.removeDuplicates(l4)
-my_sol.removeDuplicates(l5)
-my_sol.removeDuplicates(l6)
+nums1 = [4,9,5]
+nums2 = [9,4,9,8,4]
+print(my_sol.intersect(nums1, nums2)) #[4,9]
+
+array1 = [1, 2, 2, 1]
+array2 = [2, 2]
+print(my_sol.intersect(array1, array2)) #[2, 2]
+
+array1 = [2,1]
+array2 = [1,2]
+print(my_sol.intersect(array1, array2)) #[1, 2]
+
+array1 = [4,7,9,7,6,7]
+array2 = [5,0,0,6,1,6,2,2,4]
+print(my_sol.intersect(array1, array2)) #[4,6]
