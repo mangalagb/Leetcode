@@ -10,6 +10,8 @@
 # of the tree is the maximum value of (left_depth + right_depth) among each of the nodes.
 
 # https://studyalgorithms.com/tree/diameter-of-a-binary-tree/
+import sys
+
 
 class TreeNode(object):
     def __init__(self, val=0, left=None, right=None):
@@ -27,31 +29,21 @@ class Solution(object):
         if not root:
             return 0
 
-        depth_map = {}
-        stack = [root]
-        max_diameter = 0
+        self.diameter = -1 * sys.maxsize
+        self.find_diameter(root)
+        return self.diameter
 
-        while len(stack) > 0:
-            current = stack[-1]
+    def find_diameter(self, node):
+        if not node:
+            return 0
 
-            if current.left and current.left not in depth_map:
-                stack.append(current.left)
-            elif current.right and current.right not in depth_map:
-                stack.append(current.right)
-            else:
-                # Process the root, once left and right sub-tree have been processed
-                stack.pop()
+        left = self.find_diameter(node.left)
+        right = self.find_diameter(node.right)
 
-                ldepth = depth_map.get(current.left, 0)
-                rdepth = depth_map.get(current.right, 0)
+        self.diameter = max(self.diameter, left+right)
 
-                #max height of tree at current
-                max_height = 1 + max(ldepth, rdepth)
-                depth_map[current] = max_height
-
-                #max path length max(left_tree, right_tree, current diameter)
-                max_diameter = max(ldepth + rdepth, max_diameter)
-        return max_diameter
+        max_current = max(left, right) + 1
+        return max_current
 
 
     def make_tree(self):

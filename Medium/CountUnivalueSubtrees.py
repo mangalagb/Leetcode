@@ -23,29 +23,33 @@ class Solution(object):
             return 1
 
         self.count = 0
+        self.uni_value = None
         self.count_subtree(root)
         return self.count
 
     def count_subtree(self, node):
         if node.left and node.right:
-            left = self.count_subtree(node.left)
-            right = self.count_subtree(node.right)
-            if node.left.val == node.val and node.right.val == node.val and left and right:
+            self.count_subtree(node.left)
+            self.count_subtree(node.right)
+            if node.left.val == node.val and node.right.val == node.val and node.val == self.uni_value:
                 self.count += 1
-                return True
         elif node.left:
-            left = self.count_subtree(node.left)
-            if node.left.val == node.val and left:
+            self.count_subtree(node.left)
+            if node.left.val == node.val and node.val == self.uni_value:
                 self.count += 1
-                return True
         elif node.right:
-            right = self.count_subtree(node.right)
-            if node.right.val == node.val and right:
+            self.count_subtree(node.right)
+            if node.right.val == node.val and node.val == self.uni_value:
                 self.count += 1
-                return True
         else:
+            if self.uni_value and node.val == self.uni_value:
+                    self.count += 1
+
+        if self.count == 0:
             self.count += 1
-            return True
+            self.uni_value = node.val
+
+
 
 
     def make_tree(self):
@@ -114,14 +118,15 @@ class Solution(object):
 
 my_sol = Solution()
 
-root = my_sol.make_tree1()
-print(my_sol.countUnivalSubtrees(root)) #4
-
-root1 = my_sol.make_tree()
-print(my_sol.countUnivalSubtrees(root1)) #6
-
-root1 = my_sol.make_tree2()
-print(my_sol.countUnivalSubtrees(root1)) #3
+# root = my_sol.make_tree1()
+# print(my_sol.countUnivalSubtrees(root)) #4
+#
+# root1 = my_sol.make_tree()
+# print(my_sol.countUnivalSubtrees(root1)) #6
+#
+# root1 = my_sol.make_tree2()
+# print(my_sol.countUnivalSubtrees(root1)) #3
 
 root1 = my_sol.make_tree3()
 print(my_sol.countUnivalSubtrees(root1)) #4
+

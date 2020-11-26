@@ -10,38 +10,17 @@ class Solution(object):
         if not nums1 or not nums2:
             return []
 
-        #Find nums1 in nums2
-        result1 = self.find_elements(nums1, nums2)
-        result2 = self.find_elements(nums2, nums1)
-
-        if len(result1) > len(result2):
-            return result1
-        else:
-            return result2
-
-
-    def find_elements(self, array1, array2):
-        # Find array1 elements in array2
-        i = 0
+        counts = {}
         result = []
-        local_result = []
-        match_found = False
 
-        for current in array2:
-            if i < len(array1) and current == array1[i]:
-                if not match_found:
-                    match_found = True
-                local_result.append(current)
-                i += 1
-            elif i < len(array1) and current != array1[i] and match_found:
-                match_found = False
-                if len(local_result) > len(result):
-                    result = local_result
-                local_result = []
-                i = 0
-        if match_found:
-            if len(local_result) > len(result):
-                result = local_result
+        for num in nums1:
+            counts[num] = counts.get(num, 0) + 1
+
+        for num in nums2:
+            if num in counts and counts[num] > 0:
+                result.append(num)
+                counts[num] -= 1
+
         return result
 
 

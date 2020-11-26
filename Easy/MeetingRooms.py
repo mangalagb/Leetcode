@@ -21,7 +21,7 @@ class Solution(object):
         for value in sorted_timeline.values():
             current_room += value
 
-            # current room > 1 means he nneds to be in 2 rooms simultaneously
+            # current room > 1 means he needs to be in 2 rooms simultaneously
             if current_room > 1:
                 return False
         return True
