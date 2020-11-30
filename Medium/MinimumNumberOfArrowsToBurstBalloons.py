@@ -11,7 +11,7 @@
 #
 # Given an array points where points[i] = [xstart, xend], return the
 # minimum number of arrows that must be shot to burst all balloons.
-from collections import OrderedDict, defaultdict
+from collections import OrderedDict
 
 
 class Solution(object):
@@ -33,18 +33,20 @@ class Solution(object):
                 continue
 
             previous = result[-1]
+            previous_start = previous[0]
             previous_end = previous[1]
 
             next_start = point[0]
             next_end = point[1]
 
-            if next_start > previous_end:
+            if previous_end >= next_start:
+                new_start = max(previous_start, next_start)
+                new_end = min(previous_end, next_end)
+                result[-1] = [new_start, new_end]
+            else:
                 arrows += 1
-                result[-1][1] = next_end
-
-        return arrows
-
-
+                result.append(point)
+        return len(result)
 my_sol = Solution()
 
 points = [[10,16],[2,8],[1,6],[7,12]]

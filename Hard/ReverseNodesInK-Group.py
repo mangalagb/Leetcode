@@ -117,11 +117,11 @@ my_sol = Solution()
 head = my_sol.make_list()
 k = 2
 my_sol.reverseKGroup(head, k)
-#
-# head = my_sol.make_list1()
-# k = 2
-# my_sol.reverseKGroup(head, k)
-#
-# head = my_sol.make_list2()
-# k = 2
-# my_sol.reverseKGroup(head, k)
+
+head = my_sol.make_list1()
+k = 2
+my_sol.reverseKGroup(head, k)
+
+head = my_sol.make_list2()
+k = 2
+my_sol.reverseKGroup(head, k)

@@ -38,12 +38,12 @@ my_sol = Solution()
 
 intervals = [[1,3], [2,6], [8,10], [15,18]]
 print(my_sol.merge(intervals)) #[[1, 6], [8, 10], [15, 18]]
-
-intervals = [[1,4],[4,5]]
-print(my_sol.merge(intervals)) #[[1,5]]
-
-intervals = [[1,4],[1,4]]
-print(my_sol.merge(intervals)) #[[1,4]]
-
-intervals = [[1,4],[0,0]]
-print(my_sol.merge(intervals)) # [[1,4],[0,0]]
+#
+# intervals = [[1,4],[4,5]]
+# print(my_sol.merge(intervals)) #[[1,5]]
+#
+# intervals = [[1,4],[1,4]]
+# print(my_sol.merge(intervals)) #[[1,4]]
+#
+# intervals = [[1,4],[0,0]]
+# print(my_sol.merge(intervals)) # [[1,4],[0,0]]

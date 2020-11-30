@@ -1,3 +1,10 @@
+# Given an array of meeting time intervals consisting of start and end
+# times [[s1,e1],[s2,e2],...] (si < ei),
+# find the minimum number of conference rooms required.
+
+#https://leetcode.com/problems/meeting-rooms-ii/discuss/67855/Explanation-of-%22Super-Easy-Java-Solution-Beats-98.8%22-from-%40pinkfloyda
+
+
 from collections import defaultdict, OrderedDict
 
 class Solution:
