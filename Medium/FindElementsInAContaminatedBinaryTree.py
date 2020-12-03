@@ -8,7 +8,8 @@
 #
 # You need to first recover the binary tree and then implement the FindElements class:
 #
-#     FindElements(TreeNode* root) Initializes the object with a contamined binary tree, you need to recover it first.
+#     FindElements(TreeNode* root) Initializes the object with a contamined binary tree,
+#     you need to recover it first.
 #     bool find(int target) Return if the target value exists in the recovered binary tree.
 
 

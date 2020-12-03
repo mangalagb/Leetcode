@@ -5,26 +5,14 @@
 #
 # Find the k pairs (u1,v1),(u2,v2) ...(uk,vk) with the smallest sums.
 
+# First, we take the first k elements of nums1 and paired with nums2[0] as the
+# starting pairs so that we have (0,0), (1,0), (2,0),.....(k-1,0) in the heap.
+
+#Each time after we pick the pair with min sum, we put the new pair
+# with the second index +1. ie, pick (0,0), we put back (0,1). Therefore,
+# the heap alway maintains at most min(k, len(nums1)) elements.
+
 import heapq
-
-
-# def kSmallestPairs(self, nums1, nums2, k):
-#     queue = []
-#
-#     def push(i, j):
-#         if i < len(nums1) and j < len(nums2):
-#             heapq.heappush(queue, [nums1[i] + nums2[j], i, j])
-#
-#     push(0, 0)
-#     pairs = []
-#     while queue and len(pairs) < k:
-#         _, i, j = heapq.heappop(queue)
-#         pairs.append([nums1[i], nums2[j]])
-#         push(i, j + 1)
-#         if j == 0:
-#             push(i + 1, 0)
-#     return pairs
-
 class Solution(object):
     def kSmallestPairs(self, nums1, nums2, k):
         """
@@ -33,7 +21,39 @@ class Solution(object):
         :type k: int
         :rtype: List[List[int]]
         """
-        return heapq.nsmallest(k, ([u, v] for u in nums1 for v in nums2), key=sum)
+        if not nums1 or not nums2:
+            return []
+
+        my_heap = []
+        pairs = []
+
+        #Push first k elements of nums1 and only first element of nums2
+        #heap now has k elements or all valid numbers from nums1
+        temp = 0
+        i = 0
+        while i < len(nums1) and temp < k:
+            num = nums1[i] + nums2[0]
+            heapq.heappush(my_heap, [num, temp, i, 0])
+            i += 1
+            temp += 1
+
+        #start popping
+        count = 0
+        while len(my_heap) > 0 and count < k:
+            element = heapq.heappop(my_heap)
+            i = element[2]
+            j = element[3]
+
+            pairs.append([nums1[i], nums2[j]])
+            count += 1
+
+            if j+1 < len(nums2):
+                num = nums1[i] + nums2[j+1]
+                heapq.heappush(my_heap, [num, temp, i, j+1])
+                temp += 1
+
+        return pairs
+
 
 my_sol = Solution()
 
@@ -42,12 +62,12 @@ nums2 = [2,4,6]
 k = 3
 print(my_sol.kSmallestPairs(nums1, nums2, k)) #[[1,2],[1,4],[1,6]]
 
-# nums1 = [1,1,2]
-# nums2 = [1,2,3]
-# k = 2
-# print(my_sol.kSmallestPairs(nums1, nums2, k)) #[[1, 1], [1, 1]]
-#
-# nums1 = [1,1,2]
-# nums2 = [1,2,3]
-# k = 10
-# print(my_sol.kSmallestPairs(nums1, nums2, k)) #[[1, 1], [1, 1]]
+nums1 = [1,1,2]
+nums2 = [1,2,3]
+k = 2
+print(my_sol.kSmallestPairs(nums1, nums2, k)) #[[1, 1], [1, 1]]
+
+nums1 = [1,1,2]
+nums2 = [1,2,3]
+k = 10
+print(my_sol.kSmallestPairs(nums1, nums2, k)) #[[1,1],[1,1],[2,1],[1,2],[1,2],[2,2],[1,3],[1,3],[2,3]]

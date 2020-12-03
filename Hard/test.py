@@ -1,127 +1,120 @@
-# Given a linked list, reverse the nodes of a linked list k at a time and
-# return its modified list.
-#
-# k is a positive integer and is less than or equal to the length of the
-# linked list. If the number of nodes is not a multiple of k then left-out
-# nodes, in the end, should remain as it is.
-#
-# Follow up:
-#
-# Could you solve the problem in O(1) extra memory space?
-# You may not alter the values in the list's nodes, only nodes itself may be changed.
-
-# Definition for singly-linked list.
-class ListNode(object):
-    def __init__(self, val=0, next=None):
-        self.val = val
+class Node():
+    def __init__(self, key=0, value=0, previous=None, next=None):
+        self.key = key
+        self.value = value
+        self.previous = previous
         self.next = next
 
+class LRUCache(object):
 
-class Solution(object):
-    def reverseKGroup(self, head, k):
+    def __init__(self, capacity):
         """
-        :type head: ListNode
-        :type k: int
-        :rtype: ListNode
+        :type capacity: int
         """
-        if not head:
-            return None
+        self.max_capacity = capacity
+        self.current_capacity = 0
+        self.node_dict = {}
 
-        reverse_head = head
-
-        current = head
-        previous = None
-        previous_list = None
-
-        count = 0
-        first_reverse = True
-
-        while current:
-            while current and count < k:
-                previous = current
-                current = current.next
-                count += 1
-
-            if count < k and not current:
-                break
-
-            #split list temporarily
-            previous.next = None
-
-            #Reverse list
-            new_head, new_tail = self.reverse_list(reverse_head)
-
-            #Patch up the reversed list to existing list
-            if first_reverse:
-                head = new_head
-                first_reverse = False
-            else:
-                previous_list.next = new_head
-
-            previous_list = new_tail
-            new_tail.next = current
-            reverse_head = current
-            count = 0
-        return head
+        #Double linked list
+        self.head = Node()
+        self.tail = Node()
+        self.head.next = self.tail
+        self.tail.previous = self.head
 
 
-    def reverse_list(self, head):
-        new_tail = head
+    def get(self, key):
+        """
+        :type key: int
+        :rtype: int
+        """
+        if key in self.node_dict:
+            node = self.node_dict[key]
+            result = node.value
+            self.remove(node)
+            self.add(node)
+            return result
+        else:
+            return -1
 
-        current = head
-        previous = None
+    def put(self, key, value):
+        """
+        :type key: int
+        :type value: int
+        :rtype: None
+        """
+        new_node = Node(key, value)
 
-        while current:
-            next_node = current.next
-            current.next = previous
+        if key in self.node_dict:
+            self.remove(self.node_dict[key])
 
-            previous = current
-            current = next_node
-        new_head = previous
-        return new_head, new_tail
+         #Remove least recently used (from tail)
+        if self.current_capacity == self.max_capacity:
+            self.remove(self.tail.previous)
 
 
-    def make_list1(self):
-        head = ListNode(1)
-        node1 = ListNode(2)
-        node2 = ListNode(3)
-        node3 = ListNode(4)
+        #Add to head
+        self.add(new_node)
+        self.node_dict[key] = new_node
 
-        head.next = node1
-        node1.next = node2
-        node2.next = node3
-        return head
 
-    def make_list2(self):
-        head = ListNode(1)
-        node1 = ListNode(2)
+    def add(self, node):
+        prev_node = self.head
+        next_node = self.head.next
 
-        head.next = node1
-        return head
+        node.previous = prev_node
+        prev_node.next = node
 
-    def make_list(self):
-        head = ListNode(1)
-        node1 = ListNode(2)
-        node2 = ListNode(3)
-        node3 = ListNode(4)
-        node4 = ListNode(5)
+        node.next = next_node
+        next_node.previous = node
+        self.current_capacity += 1
+        self.node_dict[node.key] = node
 
-        head.next = node1
-        node1.next = node2
-        node2.next = node3
-        node3.next = node4
-        return head
 
-my_sol = Solution()
+    def remove(self, node):
+        prev_node = node.previous
+        next_node = node.next
 
-head = my_sol.make_list()
-k = 2
-my_sol.reverseKGroup(head, k)
-#
-# head = my_sol.make_list1()
-# k = 2
-# my_sol.reverseKGroup(head, k)
-#
-# head = my_sol.make_list2()
-# k = 2
-# my_sol.reverseKGroup(head, k)
+        if prev_node:
+            prev_node.next = next_node
+        if next_node:
+            next_node.previous = prev_node
+        self.current_capacity -= 1
+        self.node_dict.pop(node.key)
+
+# Your LRUCache object will be instantiated and called as such:
+cache = LRUCache(2)
+
+cache.put(1, 1)
+cache.put(2, 2)
+print(cache.get(1), end=" ")
+
+cache.put(3, 3)
+print(cache.get(2), end=" ")
+
+cache.put(4, 4)
+print(cache.get(1), end=" ")
+
+print(cache.get(3), end=" ")
+print(cache.get(4), end=" ")
+
+print("\n_________________________\n")
+# 1, -1, -1, 3, 4
+
+cache = LRUCache(1)
+cache.put(2,1)
+print(cache.get(2), end=" ")
+
+
+print("\n_________________________\n")
+#1
+
+cache = LRUCache(2)
+print(cache.get(2), end=" ")
+cache.put(2,6)
+print(cache.get(1), end=" ")
+cache.put(1,5)
+cache.put(1,2)
+print(cache.get(1), end=" ")
+print(cache.get(2), end=" ")
+print("\n_________________________\n")
+# #[-1,-1,,2,6]

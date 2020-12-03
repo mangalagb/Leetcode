@@ -27,8 +27,7 @@ class Solution(object):
             min_height = min(height[i], height[j])
 
             area = width * min_height
-            if area > max_area:
-                max_area = area
+            max_area = max(max_area, area)
 
             if height[i] >= height[j]:
                 j -= 1

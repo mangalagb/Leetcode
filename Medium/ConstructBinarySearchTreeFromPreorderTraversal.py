@@ -29,31 +29,30 @@ class Solution(object):
         :type preorder: List[int]
         :rtype: TreeNode
         """
-        if not preorder:
-            return
+        root = self.make_tree(preorder[0], preorder)
+        return root
 
-        if len(preorder) == 1:
+    def make_tree(self, value, preorder):
+        if len(preorder) == 0:
+            return
+        elif len(preorder) == 1:
             return TreeNode(preorder[0])
 
-        root = TreeNode(preorder[0])
-        stack = [root]
+        i = 1
+        while i < len(preorder):
+            if preorder[i] > value:
+                break
+            i += 1
 
-        for current in preorder[1:]:
-            top = stack[-1]
+        left = preorder[1:i]
+        right = preorder[i:]
 
-            if current < top.val:
-                left_node = TreeNode(current)
-                top.left = left_node
-                stack.append(left_node)
-            else:
-                right_node = TreeNode(current)
-                last = None
-                while len(stack) > 0 and current > stack[-1].val:
-                    last = stack.pop(-1)
-
-                last.right = right_node
-                stack.append(right_node)
-        return root
+        node = TreeNode(value)
+        if left:
+            node.left = self.make_tree(left[0], left)
+        if right:
+            node.right = self.make_tree(right[0], right)
+        return node
 
 
 my_sol = Solution()

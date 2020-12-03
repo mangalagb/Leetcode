@@ -33,7 +33,7 @@ class Solution(object):
 
     def do_DFS(self, node):
         # 0 -> if it is a leaf
-        # 1 -> if it is a parent of a leaf. Is monitored by child
+        # 1 -> Has camera here
         # -1 -> No camera needed
         if not node:
             return -1

@@ -1,3 +1,18 @@
+# Design a data structure that follows the constraints of a Least
+# Recently Used (LRU) cache.
+#
+# Implement the LRUCache class:
+#
+# LRUCache(int capacity) Initialize the LRU cache with positive size capacity.
+# int get(int key) Return the value of the key if the key exists,
+# otherwise return -1.
+# void put(int key, int value) Update the value of the key if the
+# key exists. Otherwise, add the key-value pair to the cache. If the
+# number of keys exceeds the capacity from this operation, evict the
+# least recently used key.
+# Follow up:
+# Could you do get and put in O(1) time complexity?
+
 class Node:
     def __init__(self, key, value):
         self.key = key
@@ -58,39 +73,40 @@ class LRUCache:
 
 
 
+# Your LRUCache object will be instantiated and called as such:
 cache = LRUCache(2)
 
 cache.put(1, 1)
 cache.put(2, 2)
-print(cache.get(1))
+print(cache.get(1), end=" ")
 
 cache.put(3, 3)
-print(cache.get(2))
+print(cache.get(2), end=" ")
 
 cache.put(4, 4)
-print(cache.get(1))
+print(cache.get(1), end=" ")
 
-print(cache.get(3))
-print(cache.get(4))
+print(cache.get(3), end=" ")
+print(cache.get(4), end=" ")
 
 print("\n_________________________\n")
-#1, -1, -1, 3, 4
+# 1, -1, -1, 3, 4
 
 cache = LRUCache(1)
 cache.put(2,1)
-print(cache.get(2))
+print(cache.get(2), end=" ")
 
 
 print("\n_________________________\n")
 #1
 
 cache = LRUCache(2)
-print(cache.get(2))
+print(cache.get(2), end=" ")
 cache.put(2,6)
-print(cache.get(1))
+print(cache.get(1), end=" ")
 cache.put(1,5)
 cache.put(1,2)
-print(cache.get(1))
-print(cache.get(2))
+print(cache.get(1), end=" ")
+print(cache.get(2), end=" ")
 print("\n_________________________\n")
 # #[-1,-1,,2,6]

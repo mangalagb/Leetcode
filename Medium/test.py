@@ -1,66 +1,110 @@
-# There are some spherical balloons spread in two-dimensional space. For each
-# balloon, provided input is the start and end coordinates of the horizontal
-# diameter. Since it's horizontal, y-coordinates don't matter, and hence the
-# x-coordinates of start and end of the diameter suffice. The start is always
-# smaller than the end.
+# Given an array of integers nums sorted in ascending order,
+# find the starting and ending position of a given target value.
 #
-# An arrow can be shot up exactly vertically from different points along the
-# x-axis. A balloon with xstart and xend bursts by an arrow shot at x
-# if xstart ≤ x ≤ xend. There is no limit to the number of arrows that
-# can be shot. An arrow once shot keeps traveling up infinitely.
+# Your algorithm's runtime complexity must be in the order of O(log n).
 #
-# Given an array points where points[i] = [xstart, xend], return the
-# minimum number of arrows that must be shot to burst all balloons.
-from collections import OrderedDict, defaultdict
-
+# If the target is not found in the array, return [-1, -1].
 
 class Solution(object):
-    def findMinArrowShots(self, points):
+    def searchRange(self, nums, target):
         """
-        :type points: List[List[int]]
-        :rtype: int
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
         """
-        if len(points) == 0:
-            return 0
+        if not nums:
+            return [-1,-1]
+        elif target < nums[0] or target > nums[-1]:
+            return [-1, -1]
 
-        sorted_points = sorted(points)
-        result = []
-        arrows = 1
+        index = self.do_binary_search(nums, target)
+        if index == -1:
+            return [-1, -1]
 
-        for point in sorted_points:
-            if not result:
-                result.append(point)
-                continue
+        left_array = nums[:index]
+        right_array = nums[index+1:]
 
-            previous = result[-1]
-            previous_end = previous[1]
+        left = index
+        if left_array:
+            result = self.find_left_boundary(left_array, target)
+            if result != -1:
+                left = result
 
-            next_start = point[0]
-            next_end = point[1]
+        right = index
+        if right_array:
+            result = self.find_right_boundary(right_array, target)
+            if result != -1:
+                right = index + result + 1
 
-            if next_start > previous_end:
-                arrows += 1
-                result[-1][1] = next_end
+        return [left, right]
 
-        return arrows
+    def do_binary_search(self, nums, target):
+        low = 0
+        high = len(nums) - 1
+        index = -1
+
+        while low <= high:
+            mid = low + (high - low) // 2
+
+            if nums[mid] == target:
+                index = mid
+                break
+
+            elif nums[mid] > target:
+                high = mid - 1
+            else:
+                low = mid + 1
+        return index
+
+    def find_left_boundary(self, nums, target):
+        boundary = self.do_binary_search(nums, target)
+        if boundary == -1:
+            return -1
+        else:
+            nums = nums[:boundary]
+            result = self.find_left_boundary(nums, target)
+            if result != -1:
+                boundary = result
+        return boundary
+
+    def find_right_boundary(self, nums, target):
+        boundary = self.do_binary_search(nums, target)
+        if boundary == -1:
+            return -1
+        else:
+            nums = nums[boundary+1:]
+            result = self.find_right_boundary(nums, target)
+            if result != -1:
+                boundary = boundary + result + 1
+        return boundary
 
 
-my_sol = Solution()
+mySolution = Solution()
 
-points = [[10,16],[2,8],[1,6],[7,12]]
-print(my_sol.findMinArrowShots(points))   #2
-
-points = [[1,2],[3,4],[5,6],[7,8]]
-print(my_sol.findMinArrowShots(points)) #4
-
-points = [[1,2],[2,3],[3,4],[4,5]]
-print(my_sol.findMinArrowShots(points)) #2
-
-points = [[1,2]]
-print(my_sol.findMinArrowShots(points)) #1
-
-points = [[2, 3], [2, 3]]
-print(my_sol.findMinArrowShots(points)) #1
-
-points = [[9,12],[1,10],[4,11],[8,12],[3,9],[6,9],[6,7]]
-print(my_sol.findMinArrowShots(points)) #2
+nums = [5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5]
+target = 5
+print(mySolution.searchRange(nums, target)) #[0,999]
+#
+# nums = [1,1,1,1,1,1,2,3,4,4,5,5,5,6,7,8,8,8,8]
+# target = 8
+# print(mySolution.searchRange(nums, target)) #[15, 18]
+#
+# nums1 = [5,7,7,8,8,10]
+# target1 = 8
+# print(mySolution.searchRange(nums1, target1)) #[3, 4]
+#
+# nums2 = [5,7,7,8,8,10]
+# target2 = 6
+# print(mySolution.searchRange(nums2, target2)) #[-1,-1]
+#
+# nums3 = [1]
+# target3 = 1
+# print(mySolution.searchRange(nums3, target3)) #[0,0]
+#
+# nums3 = [2,2]
+# target3 = 2
+# print(mySolution.searchRange(nums3, target3)) #[0,1]
+#
+# nums = [0,0,1,1,1,2,2,3,3,3,4,4,4,4,5,5,6,6,6,8,10,10]
+# target = 4
+# print(mySolution.searchRange(nums, target)) #[10,13]

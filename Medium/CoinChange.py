@@ -25,10 +25,7 @@ class Solution(object):
             for coin in coins:
                 # Go through all coins smaller than i
                 if coin <= i:
-                    sub_result = num_of_coins[i - coin]
-
-                    if sub_result != sys.maxsize and sub_result < num_of_coins[i]:
-                        num_of_coins[i] = sub_result + 1
+                    num_of_coins[i] = min(num_of_coins[i], 1 + num_of_coins[i-coin])
 
         result = num_of_coins[amount]
         if result == sys.maxsize:

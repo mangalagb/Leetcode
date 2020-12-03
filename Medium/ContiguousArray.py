@@ -1,4 +1,5 @@
-# Given a binary array, find the maximum length of a contiguous subarray with equal number of 0 and 1.
+# Given a binary array, find the maximum length of a contiguous subarray
+# with equal number of 0 and 1.
 
 class Solution(object):
     def findMaxLength(self, nums):
@@ -42,18 +43,18 @@ class Solution(object):
 
 my_sol = Solution()
 
-# nums = [0,1]
-# print(my_sol.findMaxLength(nums))
-#
-# nums = [0,1,0]
-# print(my_sol.findMaxLength(nums))
-#
-# nums = [0,0,1,0,0,0,1,1]
-# print(my_sol.findMaxLength(nums))
-#
-# nums = [1,1,1,1,1,1,1,1]
-# print(my_sol.findMaxLength(nums))
+nums = [0,1]
+print(my_sol.findMaxLength(nums)) #2
+
+nums = [0,1,0]
+print(my_sol.findMaxLength(nums)) #2
+
+nums = [0,0,1,0,0,0,1,1]
+print(my_sol.findMaxLength(nums)) #6
+
+nums = [1,1,1,1,1,1,1,1]
+print(my_sol.findMaxLength(nums)) #0
 
 nums = [0,1,1,0,1,1,1,0]
-print(my_sol.findMaxLength(nums))
+print(my_sol.findMaxLength(nums)) #6
 
