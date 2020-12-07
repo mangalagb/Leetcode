@@ -9,67 +9,40 @@
 # Given an array A of integers, return the length of the longest mountain.
 #
 # Return 0 if there is no mountain.
+#SOLUTION
+#find peak and stretch, easy to understand, O(2N)
 
 class Solution(object):
-    def longestMountain(self, A):
+    def longestMountain(self, arr):
         """
         :type A: List[int]
         :rtype: int
         """
-        if len(A) < 3:
+        if len(arr) < 3:
             return 0
 
-        A.append(None)
-        start = 0
-        end = 0
-        length_of_nums = len(A)
-
-        prev = None
         result = 0
-        i = 0
-        increasing = False
-        decreasing = False
-        while end < length_of_nums:
-            if prev is None:
-                prev = A[i]
-                i += 1
+        for i in range(1, len(arr)-1):
+            #Peak condtion
+            if arr[i] > arr[i-1] and arr[i] > arr[i+1]:
 
-            while i < length_of_nums and A[i] is not None and A[i] > prev:
-                prev = A[i]
-                i += 1
-                increasing = True
+                left = i -1
+                while left > 0 and arr[left] > arr[left-1]:
+                    left -= 1
 
-            while i < length_of_nums and A[i] is not None and A[i] < prev and increasing:
-                prev = A[i]
-                i += 1
-                decreasing = True
+                right = i + 1
+                while right < len(arr)-1 and arr[right] > arr[right+1]:
+                    right += 1
 
-            end = i
-            increasing = False
-
-            if end - start >= 3 and decreasing:
-                window = end - start
-                result = max(result, window)
-                decreasing = False
-
-            if i < length_of_nums and A[i] is not None and prev < A[i]:
-                i -= 1
-
-            start = i
-            end = i
-            prev = None
-
+                local_result = right - left + 1
+                result = max(result, local_result)
         return result
-
-
-
-
 
 
 my_sol = Solution()
 
 num1 = [1,4,7,3,2,5]
-print(my_sol.longestMountain(num1)) #5
+print(my_sol.longestMountain(num1)) #5 #[1,4,7,3,2]
 
 num1 = [2,3,3,2,0,2]
 print(my_sol.longestMountain(num1)) #0

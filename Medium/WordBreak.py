@@ -44,14 +44,14 @@ class Solution(object):
 
 my_sol = Solution()
 
-# s = "leetcode"
-# wordDict = ["leet", "code"]
-# print(my_sol.wordBreak(s, wordDict)) #True
-#
+s = "leetcode"
+wordDict = ["leet", "code"]
+print(my_sol.wordBreak(s, wordDict)) #True
+
 # s = "applepenapple"
 # wordDict = ["apple", "pen"]
 # print(my_sol.wordBreak(s, wordDict)) #True
-
-s = "catsandog"
-wordDict = ["cats", "dog", "sand", "and", "cat"]
-print(my_sol.wordBreak(s, wordDict)) #False
+#
+# s = "catsandog"
+# wordDict = ["cats", "dog", "sand", "and", "cat"]
+# print(my_sol.wordBreak(s, wordDict)) #False

@@ -9,57 +9,68 @@ class Solution(object):
         :type K: int
         :rtype: int
         """
-        begin = 0
-        end = 0
+        if not A:
+            return 0
+
+        self.result = 0
+        for i in range(0, len(A)):
+            if A[i] == 1:
+                self.extend_bidirectional(i, A, K)
+        return self.result
+
+    def extend_bidirectional(self, i, A, K):
         count = 0
-        longest_window = -1
-        length_of_array = len(A)
+        left = i-1
+        right = i+1
 
-        while end < length_of_array:
-            if end + 1 == length_of_array and A[end] == 1:
-                result = end - begin + 1
-                if result > longest_window:
-                    longest_window = result
+        if left < 0:
+            left = 0
 
-            if A[end] == 0:
+        if right == len(A):
+            right = len(A) - 1
+
+        while left > 0:
+            if A[left] == 1:
+                left -= 1
+            elif count < K:
                 count += 1
+                left -= 1
+            else:
+                break
 
-                if count > K:
-                    result = end - begin
-                    if result > longest_window:
-                        longest_window = result
+        while right < len(A):
+            if A[right] == 1:
+                right += 1
+            elif count < K:
+                count += 1
+                right += 1
+            else:
+                break
 
-                    while A[begin] == 1:
-                        begin += 1
+        local_result = right - left
+        self.result = max(self.result, local_result)
 
-                    if A[begin] == 0:
-                        begin += 1
-                        count -= 1
-            end += 1
 
-        if longest_window == -1:
-            longest_window = length_of_array
-        #print(longest_window)
-        return longest_window
+
 
 my_sol = Solution()
 
 A = [1,1,1,0,0,0,1,1,1,1,0]
 K = 2
-my_sol.longestOnes(A, K)
-
-A = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1]
-K = 3
-my_sol.longestOnes(A, K)
+print(my_sol.longestOnes(A, K)) #6
+#
+# A = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1]
+# K = 3
+# print(my_sol.longestOnes(A, K)) #10
 
 A = [1,1,1]
 K = 2
-my_sol.longestOnes(A, K)
-
-A = [0,0,0,1]
-K = 2
-my_sol.longestOnes(A, K)
-
-A = []
-K = 2
-my_sol.longestOnes(A, K)
+print(my_sol.longestOnes(A, K)) #3
+#
+# A = [0,0,0,1]
+# K = 2
+# print(my_sol.longestOnes(A, K)) #3
+#
+# A = []
+# K = 2
+# print(my_sol.longestOnes(A, K)) #0

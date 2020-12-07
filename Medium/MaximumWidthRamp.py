@@ -73,37 +73,35 @@ class Solution(object):
         length_of_nums = len(A)
 
         for i in range(0, length_of_nums):
-            length_of_stack = len(stack) - 1
-            if length_of_stack == -1 or A[i] < stack[length_of_stack]:
-                stack.append(A[i])
+            if len(stack) == 0 or A[stack[-1]] > A[i]:
+                stack.append(i)
 
-        answer = 0
-        length_of_stack = len(stack) - 1
+        max_width = 0
         for j in range(length_of_nums-1, -1, -1):
-            while length_of_stack >= 0 and A[j] > stack[length_of_stack]:
-                answer = max((j - stack.pop(length_of_stack)), answer)
-                length_of_stack = len(stack) - 1
-
-        return answer
+            current = A[j]
+            while len(stack) > 0 and current > A[stack[-1]]:
+                current_width = j - stack.pop(-1) + 1
+                max_width = max(current_width, max_width)
+        return max_width
 
 
 
 my_sol = Solution()
 
 nums = [6,0,8,2,1,5]
-print(my_sol.maxWidthRamp(nums))
+print(my_sol.maxWidthRampStack(nums)) #5
 
 nums = [9,8,1,0,1,9,4,0,4,1]
-print(my_sol.maxWidthRamp(nums))
-#
-# nums = [2,3,1]
-# print(my_sol.maxWidthRamp(nums))
-#
-# nums = [9,27,14,25,25,21,23,22,20,20,19,18,18,19,10,11,10,8,8,8,0,28,6,6,5,9,2,2,2,0]
-# print(my_sol.maxWidthRamp(nums))
+print(my_sol.maxWidthRampStack(nums)) #7
 
-# nums = [6,0,8,2,1,5]
-# print(my_sol.maxWidthRampStack(nums))
-#
-# nums = [9,8,1,0,1,9,4,0,4,1]
-# print(my_sol.maxWidthRampStack(nums))
+nums = [2,3,1]
+print(my_sol.maxWidthRamp(nums)) #1
+
+nums = [9,27,14,25,25,21,23,22,20,20,19,18,18,19,10,11,10,8,8,8,0,28,6,6,5,9,2,2,2,0]
+print(my_sol.maxWidthRamp(nums)) #25
+
+nums = [6,0,8,2,1,5]
+print(my_sol.maxWidthRampStack(nums)) #5
+
+nums = [9,8,1,0,1,9,4,0,4,1]
+print(my_sol.maxWidthRampStack(nums)) #7

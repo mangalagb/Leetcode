@@ -17,32 +17,31 @@ class Solution(object):
         if not root:
             return
 
-        pre_order = self.do_preorder(root)
-        current = root
+        self.do_flatten(root)
 
-        for i in range(1, len(pre_order)):
-            current.left = None
 
-            if current.right:
-                current.right.val = pre_order[i]
-            else:
-                current.right = TreeNode(pre_order[i])
+    def do_flatten(self, node):
+        if not node:
+            return
+        elif not node.left and not node.right:
+            return node
+
+        left_tree = node.left
+        right_tree = node.right
+        node.left = None
+        node.right = None
+
+        left_result = self.do_flatten(left_tree)
+        right_result = self.do_flatten(right_tree)
+
+        if left_result:
+            node.right = left_result
+
+        current = node
+        while current.right:
             current = current.right
-
-
-    def do_preorder(self, root):
-        preorder = []
-        stack = []
-        current = root
-        while current or len(stack) > 0:
-            while current:
-                stack.append(current)
-                preorder.append(current.val)
-                current = current.left
-
-            current = stack.pop()
-            current = current.right
-        return preorder
+        current.right = right_result
+        return node
 
 
     def make_tree(self):

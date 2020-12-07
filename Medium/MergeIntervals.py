@@ -1,4 +1,8 @@
 #Given a collection of intervals, merge all overlapping intervals.
+
+#SOLUTION
+#https://www.youtube.com/watch?v=qKczfGUrFY4
+
 from collections import defaultdict, OrderedDict
 
 class Solution:
@@ -6,44 +10,36 @@ class Solution:
         if len(intervals) == 0:
             return []
 
-        timeline = defaultdict(int)
+        sorted_intervals = sorted(intervals)
 
-        # For every start time add 1, end time -1
-        for interval in intervals:
-            start = interval[0]
-            end = interval[1]
+        stack = [sorted_intervals[0]]
+        for i in range(1, len(sorted_intervals)):
+            current_interval = sorted_intervals[i]
+            current_begin = current_interval[0]
+            current_end = current_interval[1]
 
-            timeline[start] += 1
-            timeline[end] -= 1
+            top = stack[-1]
+            top_begin = top[0]
+            top_end = top[1]
 
-        # Sort timeline based on start times
-        sorted_timeline = OrderedDict(sorted(timeline.items()))
-
-        start = 0
-        count = 0
-        result = []
-        for key, value in sorted_timeline.items():
-            if count == 0:
-                start = key
-
-            count += value
-            if count == 0:
-                result.append([start, key])
-        return result
-
-
+            if current_begin <= top_end:
+                top_end = max(top_end, current_end)
+                stack[-1] = [top_begin, top_end]
+            else:
+                stack.append([current_begin, current_end])
+        return stack
 
 
 my_sol = Solution()
 
 intervals = [[1,3], [2,6], [8,10], [15,18]]
 print(my_sol.merge(intervals)) #[[1, 6], [8, 10], [15, 18]]
-#
-# intervals = [[1,4],[4,5]]
-# print(my_sol.merge(intervals)) #[[1,5]]
-#
-# intervals = [[1,4],[1,4]]
-# print(my_sol.merge(intervals)) #[[1,4]]
-#
-# intervals = [[1,4],[0,0]]
-# print(my_sol.merge(intervals)) # [[1,4],[0,0]]
+
+intervals = [[1,4],[4,5]]
+print(my_sol.merge(intervals)) #[[1,5]]
+
+intervals = [[1,4],[1,4]]
+print(my_sol.merge(intervals)) #[[1,4]]
+
+intervals = [[1,4],[0,0]]
+print(my_sol.merge(intervals)) # [[1,4],[0,0]]

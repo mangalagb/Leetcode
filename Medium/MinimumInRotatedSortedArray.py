@@ -43,4 +43,4 @@ def search(nums, low, high):
 
 
 nums = [4,5,6,7,0,1,2]
-print(findMin(nums))
+print(findMin(nums)) #0

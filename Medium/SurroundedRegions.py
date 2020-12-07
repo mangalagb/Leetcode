@@ -32,23 +32,23 @@ class Solution(object):
         for i in range(0, len(board)):
             j = 0
             if board[i][j] == "O":
-                self.do_DFS(board, i, j, True)
+                self.do_DFS(board, i, j)
 
             j = len(board[0]) - 1
             if board[i][j] == "O":
-                self.do_DFS(board, i, j, True)
+                self.do_DFS(board, i, j)
 
         for j in range(0, len(board[0])):
             i = 0
             if board[i][j] == "O":
-                self.do_DFS(board, i, j, True)
+                self.do_DFS(board, i, j)
 
             i = len(board) - 1
             if board[i][j] == "O":
-                self.do_DFS(board, i, j, True)
+                self.do_DFS(board, i, j)
 
 
-    def do_DFS(self, board, row, col, remove_border_O):
+    def do_DFS(self, board, row, col):
         # Stack's top is at index 0
         stack = [[row, col]]
         visited = []
@@ -59,10 +59,7 @@ class Solution(object):
             top_col = top_element[1]
 
             # Mark current as visited
-            if remove_border_O:
-                board[top_row][top_col] = "!"
-            else:
-                board[top_row][top_col] = "X"
+            board[top_row][top_col] = "!"
 
             # Find unvisited neighbours
             neighbour = self.find_unvisited_neighbour(board, top_row, top_col)

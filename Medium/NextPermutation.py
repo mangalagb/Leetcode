@@ -14,70 +14,100 @@
 # 1,1,5 → 1,5,1
 
 
+#SOLUTION
+
+# 2,3,6,5,4,1
+#
+# Solution:
+# Step1, from right to left, find the first number which not increase
+# in a ascending order. In this case which is 3.
+# Step2, here we can have two situations:
+#
+# We cannot find the number, all the numbers increasing in a ascending order.
+# This means this permutation is the last permutation, we need to rotate back to
+# the first permutation. So we reverse the whole array, for example, 6,5,4,3,2,1
+# we turn it to 1,2,3,4,5,6.
+#
+# We can find the number, then the next step, we will start from right most to
+# leftward, try to find the first number which is larger than 3, in this case it is 4.
+
+# Then we swap 3 and 4, the list turn to 2,4,6,5,3,1.
+
+# Last, we reverse numbers on the right of 4, we finally get 2,4,1,3,5,6.
+#
+# Time complexity is: O(3*n)=O(n).
+
+
 class Solution(object):
     def nextPermutation(self, nums):
-        index_to_modify = -1
+        if not nums or len(nums) == 1:
+            return nums
+
+        #Find the first element from the end that is not incresing
+        index = -1
         for j in range(len(nums)-2, -1, -1):
             if nums[j] >= nums[j+1]:
                 continue
             else:
-                index_to_modify = j
+                index = j
                 break
 
-        if index_to_modify != -1:
-            index_of_swap_number = -1
-            for i in range(len(nums)-1, index_to_modify, -1):
-                if nums[i] > nums[index_to_modify]:
-                    index_of_swap_number = i
-                    break
-            #print(index_of_swap_number)
+        if index == -1:
+            self.reverse_nums(nums, 0, len(nums)-1)
+            return
 
-            #Swap these 2 numbers
-            temp = nums[index_to_modify]
-            nums[index_to_modify] = nums[index_of_swap_number]
-            nums[index_of_swap_number] = temp
+        #Find the largest index number (from reverse)to the right which is greater than index
+        special_num = nums[index]
+        counter = len(nums)-1
+        for i in range(len(nums)-1, index, -1):
+            current = nums[i]
+            if current > special_num:
+                counter = i
+                break
 
-            #Reverse the remaing list to get the samllest possible remaining
-            # digits
-            i = index_to_modify + 1
-            j = len(nums) -1
-            while i <= j:
-                temp = nums[i]
-                nums[i] = nums[j]
-                nums[j] = temp
-                i += 1
-                j -= 1
+        #swap these 2
+        temp = nums[counter]
+        nums[counter] = nums[index]
+        nums[index] = temp
 
-        else:
-            nums.sort()
+        #Sort the right part in ascending order
+        self.reverse_nums(nums, index+1, len(nums)-1)
 
-        print(nums)
-        #return nums
+    def reverse_nums(self, nums, i, j):
+        while i < j:
+            temp = nums[i]
+            nums[i] = nums[j]
+            nums[j] = temp
+            i += 1
+            j -= 1
 
 
 my_sol = Solution()
 
-nums = [1,2,5,3]
+nums = [5,1,1]
+my_sol.nextPermutation(nums) #[1,1,5]
 print(nums)
-my_sol.nextPermutation(nums)
-print("\n")
 
-nums = [1,2,3]
-print(nums)
-my_sol.nextPermutation(nums)
-print("\n")
-
-nums = [2,3,1]
-print(nums)
-my_sol.nextPermutation(nums)
-print("\n")
-
-nums = [3,2,1]
-print(nums)
-my_sol.nextPermutation(nums)
-print("\n")
-
-nums = [1,1,5]
-print(nums)
-my_sol.nextPermutation(nums)
-print("\n")
+# nums = [4,2,0,2,3,2,0]
+# my_sol.nextPermutation(nums) #[4,2,0,3,0,2,2]
+# print(nums)
+#
+# nums = [1,2,5,3]
+# my_sol.nextPermutation(nums) #[1, 3, 2, 5]
+# print(nums)
+#
+# nums = [1,2,3]
+# my_sol.nextPermutation(nums) #[1, 3, 2]
+# print(nums)
+#
+# nums = [2,3,1]
+# my_sol.nextPermutation(nums) #[3,1,2]
+# print(nums)
+#
+# nums = [3,2,1]
+# my_sol.nextPermutation(nums) #[1,2,3]
+# print(nums)
+# #
+# nums = [1,1,5]
+# my_sol.nextPermutation(nums)#[1, 5, 1]
+# print(nums)

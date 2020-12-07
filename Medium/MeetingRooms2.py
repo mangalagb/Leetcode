@@ -4,36 +4,61 @@
 
 #https://leetcode.com/problems/meeting-rooms-ii/discuss/67855/Explanation-of-%22Super-Easy-Java-Solution-Beats-98.8%22-from-%40pinkfloyda
 
-
-from collections import defaultdict, OrderedDict
+#SOLUTION
+#Meetings that started which haven’t ended yet have to be put into different meeting rooms,
+# and the number of rooms needed is the number of such meetings
 
 class Solution:
     def minMeetingRooms(self, intervals):
         if len(intervals) == 0:
             return 0
 
-        timeline = defaultdict(int)
+        meeting_start = []
+        meeting_end = []
 
-        # For every start time add 1, end time -1
+        # Store start and end times
         for interval in intervals:
-            timeline[interval[0]] += 1
-            timeline[interval[1]] -= 1
+            meeting_start.append(interval[0])
+            meeting_end.append(interval[1])
 
-        # Sort timeline based on start times
-        sorted_timeline = OrderedDict(sorted(timeline.items()))
+        start = sorted(meeting_start)
+        end = sorted(meeting_end)
 
-        current_room = 0
-        max_room = 0
-        for value in sorted_timeline.values():
-            current_room += value
-            max_room = max(max_room, current_room)
-        return max_room
+        rooms = 0
+        j = 0
+
+        for i in range(0, len(start)):
+            meeting_start = start[i]
+            meeting_end = end[j]
+
+            #Meetins are starting before the first one has ended
+            if meeting_start < meeting_end:
+                rooms += 1
+
+            else:
+                # 1 room becomes free
+                # But a new meeting has started. So 1 more room
+                # No need to update rooms here
+
+                #This also handles the case of metting ending and another one
+                # starting at the same time
+
+
+                #update end time for next meeting comparison
+                j += 1
+
+        return rooms
+
+
 
 
 my_sol = Solution()
 
-intervals = [[0, 30],[5, 10],[15, 20]]
+intervals = [[9,14],[5,6],[3,5],[12,19]]
 print(my_sol.minMeetingRooms(intervals)) #2
 
-intervals = [[7,10],[2,4]]
-print(my_sol.minMeetingRooms(intervals)) #1
+# intervals = [[0, 30],[5, 10],[15, 20]]
+# print(my_sol.minMeetingRooms(intervals)) #2
+#
+# intervals = [[7,10],[2,4]]
+# print(my_sol.minMeetingRooms(intervals)) #1

@@ -23,4 +23,4 @@ class Solution:
 my_sol = Solution()
 
 nums = [10,2,3,4]
-print(my_sol.productExceptSelf(nums))
+print(my_sol.productExceptSelf(nums)) #[24, 120, 80, 60]

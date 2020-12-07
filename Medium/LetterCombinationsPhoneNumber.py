@@ -3,27 +3,19 @@ class Solution:
         if len(digits) == 0:
             return []
 
-        alphabets = self.get_mappings()
-        final_result = []
+        letters = self.get_mappings()
+        result = [""]
 
         for digit in digits:
-            letters = alphabets.get(digit)
-            result = final_result.copy()
-            final_result.clear()
-            for letter in letters:
-                local_result = self.get_combinations(letter, result)
-                for values in local_result:
-                    final_result.append(values)
-        return final_result
+            temp = []
+            alphabets = letters[digit]
 
-    def get_combinations(self, letter, combinations):
-        if len(combinations) == 0:
-            return [letter]
-        else:
-            temp_result = []
-            for combination in combinations:
-                temp_result.append(combination + letter)
-            return temp_result
+            for word in result:
+                for alphabet in alphabets:
+                    new_word = word + alphabet
+                    temp.append(new_word)
+            result = temp
+        return result
 
 
     def get_mappings(self):

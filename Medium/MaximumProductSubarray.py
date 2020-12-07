@@ -1,5 +1,5 @@
-# Given an integer array nums, find the contiguous subarray within an array (containing at least one number)
-# which has the largest product.
+# Given an integer array nums, find the contiguous subarray within an array
+# (containing at least one number) which has the largest product.
 import sys
 
 
@@ -50,7 +50,7 @@ class Solution(object):
             if current_product > max_backward:
                 max_backward = current_product
 
-                # return max of max_forward and max_backward
+        # return max of max_forward and max_backward
         result = max(max_forward, max_backward)
 
         # Product should not be negative.

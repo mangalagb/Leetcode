@@ -3,7 +3,8 @@
 #
 # # Since the answer may be large, return the answer modulo 10^9 + 7.
 
-# Efficient Approach: The general intuition for solution to the problem is to find sum(A[i] * f(i)), where
+# Efficient Approach: The general intuition for solution to the problem is
+# to find sum(A[i] * f(i)), where
 # f(i) is the number of subarrays in which A[i] is the minimum.
 #
 # In order to find f[i], we need to find out:
@@ -12,9 +13,11 @@
 #
 # We make two arrays left[ ] and right[ ] such that:
 # left[i] + 1 equals to the number of subarrays ending with A[i], and A[i] is only single minimum.
-# Similarly, right[i] + 1 equals to the number of subarrays starting with A[i], and A[i] is first minimum.
+# Similarly, right[i] + 1 equals to the number of subarrays starting with A[i], and A[i] is
+# first minimum.
 #
-# Finally, f(i) = (left[i]) * (right[i]), where f[i] equals total number of subarrays in which A[i] is minimum.
+# Finally, f(i) = (left[i]) * (right[i]), where f[i] equals total number of
+# subarrays in which A[i] is minimum.
 
 class Solution(object):
     def sumSubarrayMins(self, A):
