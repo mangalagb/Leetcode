@@ -2,7 +2,8 @@
 # of the left boundary, leaves, and right boundary.
 #
 # The left boundary is the set of nodes on the path from the root to the
-# left-most node. The right boundary is the set of nodes on the path from the root to the right-most node.
+# left-most node. The right boundary is the set of nodes on the path from the
+# root to the right-most node.
 #
 # The left-most node is the leaf node you reach when you always travel
 # to the left subtree if it exists and the right subtree if it doesn't.
