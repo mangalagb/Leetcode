@@ -1,60 +1,58 @@
-#Given an array of integers nums and an integer limit, return
-# the size of the longest non-empty subarray such that the absolute
-# difference between any two elements of this subarray is less than or equal to limit.
+# Write an immutable function that merges the following inputs
+# into a single list. (Feel free to use the space below or submit a link to your work.)
+#
+# Inputs
+# - Original list of strings
+# - List of strings to be added
+# - List of strings to be removed
+#
+# Return
+# - List shall only contain unique values
+# - List shall be ordered as follows
+# --- Most character count to least character count
+# --- In the event of a tie, reverse alphabetical
+#
+# Other Notes
+# - You can use any programming language you like
+# - The function you submit shall be runnable
 
 class Solution(object):
-    def longestSubarray(self, nums, limit):
-        """
-        :type nums: List[int]
-        :type limit: int
-        :rtype: int
-        """
-        if not nums:
-            return 0
+    def order_list(self, original_strings, added_strings, removed_strings):
+        new_list = set(original_strings.copy())
 
-        begin = 0
-        max_length = 0
-        i = 0
-        while i < len(nums):
-            current = nums[i]
+        for word in added_strings:
+            new_list.add(word)
 
-            if max_length == -1 and abs(current - current) <= limit:
-                max_length = 1
-                i += 1
-                continue
+        for word in removed_strings:
+            if word in new_list:
+                new_list.remove(word)
 
-            while begin <= i:
-                cur_min = min(nums[begin:i + 1])
-                cur_max = max(nums[begin:i + 1])
+        #sort list by character count
+        word_dict = {}
+        for word in new_list:
+            word_length = len(word)
+            if word_length not in word_dict:
+                word_dict[word_length] = [word]
+            else:
+                word_dict[word_length].append(word)
 
-                val1 = abs(current - cur_min)
-                val2 = abs(current - cur_max)
-
-                if val1 > limit or val2 > limit:
-                    begin += 1
-                else:
-                    break
-
-            max_length = max(max_length, (i - begin + 1))
-            i += 1
-        return max_length
+        result = []
+        for key in sorted(word_dict, reverse=True):
+            values = word_dict[key]
+            if len(values) < 2:
+                result.append(values[0])
+            else:
+                reversed_alphabetical = sorted(values, reverse=True)
+                result.extend(reversed_alphabetical)
+        return result
 
 
-my_sol = Solution()
 
-nums = [8,2,4,7]
-limit = 4
-print(my_sol.longestSubarray(nums, limit)) #2
 
-nums = [10,1,2,4,7,2]
-limit = 5
-print(my_sol.longestSubarray(nums, limit)) #4
 
-nums = [4,2,2,2,4,4,2,2]
-limit = 0
-print(my_sol.longestSubarray(nums, limit)) #3
-
-nums = [5, 25, 100, 300]
-limit = -2
-print(my_sol.longestSubarray(nums, limit)) #0
-
+# my_sol = Solution()
+#
+# OriginalList = ['one', 'two', 'three',]
+# AddList = ['one', 'two', 'five', 'six']
+# DeleteList = ['two', 'five']
+# print(my_sol.order_list(OriginalList, AddList, DeleteList))
