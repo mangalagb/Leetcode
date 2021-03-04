@@ -32,51 +32,37 @@ class Solution(object):
         :type target: int
         :rtype: int
         """
-        low, high = self.find_high(reader, target)
-        result = self.do_binary_search(low, high, reader, target)
+        length_of_array = 10000
+        result = self.do_binary_search(0, length_of_array, reader, target)
         return result
 
-    def find_high(self, reader, target):
-        low = 0
-        high = 1
-
-        while reader.get(high) < target:
-            low = high
-            high *= 2
-        return low, high
-
     def do_binary_search(self, low, high, reader, target):
-        while low <= high:
-            mid = low + (high - low)//2
-            mid_element = reader.get(mid)
+        mid = low + (high-low)//2
+        element = reader.get(mid)
 
-            if mid_element == target:
-                return mid
-            elif mid_element > target:
-                high = mid - 1
-            elif mid_element < target:
-                low = mid + 1
-        return -1
+        if element == 2147483647:
+            high = mid
+        elif element == target:
+            return mid
+        elif high == low:
+            return -1
+        elif element < reader.g:
+            high = mid - 1
+        elif element > target:
+            low = mid + 1
+        else:
+            return -1
 
+        return self.do_binary_search(low, high, reader, target)
 
 my_sol = Solution()
 
-array = [-1,0,3,5,9,12]
-my_array_reader = ArrayReader(array)
-target = 9
-print(my_sol.search(my_array_reader, target)) #4
+# array = [-1,0,3,5,9,12]
+# my_array_reader = ArrayReader(array)
+# target = 9
+# print(my_sol.search(my_array_reader, target)) #4
 
 array = [-1,0,3,5,9,12]
 my_array_reader = ArrayReader(array)
 target = 2
 print(my_sol.search(my_array_reader, target)) #-1
-
-array = [2,5]
-my_array_reader = ArrayReader(array)
-target = 2
-print(my_sol.search(my_array_reader, target)) #0
-
-array = [-1,0,3,5,9,12]
-my_array_reader = ArrayReader(array)
-target = 12
-print(my_sol.search(my_array_reader, target)) #5
