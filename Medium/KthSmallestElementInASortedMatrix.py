@@ -57,6 +57,7 @@ matrix = [
 ]
 
 #[1, 5, 9, 10, 11, 12, 13, 13, 15]
-
-for i in range(1,10):
-    print(my_sol.kthSmallest(matrix, i))
+print(my_sol.kthSmallest(matrix, 5))
+#
+# for i in range(1,10):
+#     print(my_sol.kthSmallest(matrix, i))

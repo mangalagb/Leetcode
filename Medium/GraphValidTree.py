@@ -4,6 +4,8 @@
 #According to the definition of tree on Wikipedia: “a tree is an undirected graph in which any two vertices
 # are connected by exactly one path. In other words, any connected graph without simple cycles is a tree.”
 
+#https://leetcode.com/problems/graph-valid-tree/discuss/69046/Python-solution-with-detailed-explanation
+
 class Solution(object):
     def validTree(self, n, edges):
         """
@@ -15,29 +17,34 @@ class Solution(object):
             return True
 
         adj_list = self.build_adjacency_list(n, edges)
-        result = self.do_DFS(0, n, adj_list)
-
-
-    def do_DFS(self,node, n, adj_list):
         visited = [False] * n
-        stack = [node]
 
-        while len(stack) > 0:
-            top_element = stack[0]
-            unvisited_neighbour = self.find_unvisited_neighbour(adj_list[top_element], visited)
+        #Check cycle
+        has_cycle = self.has_cycle(0, -1, adj_list, visited)
+        if has_cycle:
+            return False
 
-            if unvisited_neighbour != -1:
-                stack.insert(0, unvisited_neighbour)
-            else:
-                stack.pop(0)
+        #Check if all nodes were visited
+        all_nodes_visited = True
+        for value in visited:
+            if not value:
+                all_nodes_visited = False
+                break
+        return all_nodes_visited
 
-    def find_unvisited_neighbour(self, neighbours, visited):
+    def has_cycle(self, current, parent, adj_list, visited):
+        visited[current] = True
+
+        neighbours = adj_list[current]
         for neighbour in neighbours:
             if not visited[neighbour]:
-                return neighbour
-        return -1
-
-
+                result = self.has_cycle(neighbour, current, adj_list, visited)
+                if result:
+                    return True
+            else:
+                if visited[neighbour] and parent != current:
+                    return True
+        return False
 
 
     def build_adjacency_list(self, n, edges):
@@ -57,17 +64,17 @@ class Solution(object):
 
 my_sol = Solution()
 
-# n = 5
-# edges = [[0,1], [0,2], [0,3], [1,4]]
-# print(my_sol.validTree(n, edges)) #True
+n = 5
+edges = [[0,1], [0,2], [0,3], [1,4]]
+print(my_sol.validTree(n, edges)) #True
 #
 # n = 5
 # edges = [[0,1], [1,2], [2,3], [1,3], [1,4]]
 # print(my_sol.validTree(n, edges)) #False
-
-n = 2
-edges = [[1,0]]
-print(my_sol.validTree(n, edges)) #True
+#
+# n = 2
+# edges = [[1,0]]
+# print(my_sol.validTree(n, edges)) #True
 #
 # n = 3
 # edges = [[1,0],[2,0]]

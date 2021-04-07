@@ -50,6 +50,7 @@ class Solution(object):
         node6 = ListNode(4)
         node7 = ListNode(5)
 
+
         head.next = node2
         node2.next = node3
         node3.next = node4

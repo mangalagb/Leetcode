@@ -27,7 +27,7 @@ class Solution(object):
         if n == 1:
             return [0]
 
-        adj = [set()] * n
+        adj = [] * n
         for i, j in edges:
             val1 = adj[i]
             val2 = adj[j]

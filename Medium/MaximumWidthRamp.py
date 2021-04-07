@@ -91,10 +91,10 @@ class Solution(object):
 my_sol = Solution()
 
 nums = [6,0,8,2,1,5]
-print(my_sol.maxWidthRamp(nums))
+print(my_sol.maxWidthRampStack(nums))
 
-nums = [9,8,1,0,1,9,4,0,4,1]
-print(my_sol.maxWidthRamp(nums))
+# nums = [9,8,1,0,1,9,4,0,4,1]
+# print(my_sol.maxWidthRamp(nums))
 #
 # nums = [2,3,1]
 # print(my_sol.maxWidthRamp(nums))
