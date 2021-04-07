@@ -9,17 +9,12 @@ class Solution:
             if new_word not in anagrams:
                 anagrams[new_word] = [word]
             else:
-                original_list = anagrams[new_word]
-                original_list.append(word)
-                anagrams[new_word] = original_list
+                anagrams[new_word].append(word)
 
         result = []
         for element in anagrams:
             result.append(anagrams[element])
         return result
-
-
-
 
 
 strs = ["eat", "tea", "tan", "ate", "nat", "bat"]

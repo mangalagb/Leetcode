@@ -13,39 +13,37 @@ class TreeNode(object):
         self.left = None
         self.right = None
 
-    def create_tree(self):
-        root = TreeNode(8)
-        node1 = TreeNode(3)
-        node2 = TreeNode(1)
-        node3 = TreeNode(6)
-        node4 = TreeNode(10)
-        node5 = TreeNode(14)
-        node6 = TreeNode(13)
+def create_tree():
+    root = TreeNode(7)
+    node1 = TreeNode(3)
+    node2 = TreeNode(15)
+    node3 = TreeNode(9)
+    node4 = TreeNode(20)
 
-        root.left = node1
-        root.right = node4
 
-        node1.left = node2
-        node1.right = node3
+    root.left = node1
+    root.right = node2
+    node2.left = node3
+    node2.right = node4
 
-        node4.right = node5
-        node5.left = node6
-        return root
+    return root
 
 class BSTIterator(object):
     def __init__(self, root):
         """
         :type root: TreeNode
         """
-        self.smallest = root
-        self.parent = None
+        if not root:
+            self.smallest = None
+            return
 
+        self.stack = []
         current = root
-        while current.left is not None:
-            self.parent = current
+        while current is not None:
+            self.stack.append(current)
             current = current.left
 
-        self.smallest = current
+        self.smallest = self.stack[-1]
 
 
     def hasNext(self):
@@ -62,22 +60,40 @@ class BSTIterator(object):
         """
         :rtype: int
         """
-        value = self.smallest
 
-        if self.parent is not None:
-            self.smallest = self.parent
+        # Pop current
+        current = self.smallest
+        result = current.val
+        self.stack.pop(-1)
 
-        return value
+        #New smallest
+        right = current.right
+        if right:
+            while right:
+                self.stack.append(right)
+                right = right.left
+
+        #update global smallest
+        if len(self.stack) > 0:
+            self.smallest = self.stack[-1]
+        else:
+            self.smallest = None
+
+        return result
 
 
+root = create_tree()
+my_sol = BSTIterator(root)
 
+nodes = []
+while my_sol.hasNext():
+    result = my_sol.next()
+    if result:
+        nodes.append(result)
+print(nodes)
 
-tree_node = TreeNode()
-root = tree_node.create_tree()
+ #############################
+root = None
+my_sol = BSTIterator(root)
 
-i = BSTIterator(root)
-v = []
-
-while i.hasNext():
-    v.append(i.next())
-
+print(my_sol.hasNext())

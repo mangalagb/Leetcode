@@ -17,91 +17,56 @@
 #
 # What is the total amount of fruit you can collect with this procedure?
 
+# Longest contigous subarry of 2 numbers
+
+#SOLUTION
+# https://www.youtube.com/watch?v=s_zu2dOkq80
+
 class Solution(object):
 
     def totalFruit(self, tree):
         if not tree:
             return 0
-        #print(tree)
 
-        first_fruit = None
-        second_fruit = None
+        last_fruit = -1
+        second_last_fruit = -1
+        last_fruit_count = 0
 
-        first_fruit_count = 0
-        second_fruit_count = 0
+        final_max = 0
+        current_max = 0
 
-        index_where_fruit_changed = -1
-        total_fruit = 0
-        previous_fruit = None
-
-        for i in range(0, len(tree)):
-            fruit = tree[i]
-            if first_fruit is None:
-                first_fruit = fruit
-                first_fruit_count += 1
-
-                index_where_fruit_changed = i
-                previous_fruit = fruit
-
-                local_total_fruit = first_fruit_count + second_fruit_count
-                if local_total_fruit > total_fruit:
-                    total_fruit = local_total_fruit
-                continue
-
-            elif fruit != first_fruit and second_fruit is None:
-                second_fruit = fruit
-                second_fruit_count += 1
-
-                if fruit != previous_fruit:
-                    previous_fruit = fruit
-                    index_where_fruit_changed = i
-
-                local_total_fruit = first_fruit_count + second_fruit_count
-                if local_total_fruit > total_fruit:
-                    total_fruit = local_total_fruit
-                continue
-
-            if fruit == first_fruit:
-                first_fruit_count += 1
-                if fruit != previous_fruit:
-                    previous_fruit = fruit
-                    index_where_fruit_changed = i
-
-            elif fruit == second_fruit:
-                second_fruit_count += 1
-                if fruit != previous_fruit:
-                    previous_fruit = fruit
-                    index_where_fruit_changed = i
+        for current_fruit in tree:
+            if current_fruit == last_fruit or current_fruit == second_last_fruit:
+                current_max += 1
             else:
-                first_fruit = previous_fruit
-                first_fruit_count = i - index_where_fruit_changed
+                current_max = last_fruit_count + 1
 
-                previous_fruit = fruit
-                index_where_fruit_changed = i
+            if current_fruit == last_fruit:
+                last_fruit_count += 1
+            else:
+                last_fruit_count = 1
 
-                second_fruit = fruit
-                second_fruit_count = 1
+            if current_fruit != last_fruit:
+                second_last_fruit = last_fruit
+                last_fruit = current_fruit
 
-            local_total_fruit = first_fruit_count + second_fruit_count
-            if local_total_fruit > total_fruit:
-                total_fruit = local_total_fruit
-
-        return total_fruit
+            final_max = max(final_max, current_max)
+        return final_max
 
 
 my_sol = Solution()
 
 tree = [1,2,1]
-print(my_sol.totalFruit(tree))
+print(my_sol.totalFruit(tree)) #3
 
 tree = [0,1,2,2]
-print(my_sol.totalFruit(tree))
+print(my_sol.totalFruit(tree)) #3
 
 tree = [1,2,3,2,2]
-print(my_sol.totalFruit(tree))
-
-tree = [3,3,3,1,2,1,1,2,3,3,4]
-print(my_sol.totalFruit(tree))
-
-tree = [0,0,0,0,0,0,0]
-print(my_sol.totalFruit(tree))
+print(my_sol.totalFruit(tree)) #4
+#
+# tree = [3,3,3,1,2,1,1,2,3,3,4]
+# print(my_sol.totalFruit(tree))
+#
+# tree = [0,0,0,0,0,0,0]
+# print(my_sol.totalFruit(tree))

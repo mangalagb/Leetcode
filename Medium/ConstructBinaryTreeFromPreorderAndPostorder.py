@@ -30,7 +30,7 @@ class Solution(object):
 
         index_of_node = inorder.index(node)
         left_of_node = inorder[0:index_of_node]
-        right_of_node = inorder[index_of_node+1 :]
+        right_of_node = inorder[index_of_node+1:]
 
         #recurse left
         if left_of_node:

@@ -68,6 +68,6 @@ def find_nth_from_last_again(n, head):
 
 my_list = initialize_list()
 my_list.print_list()
-find_nth_from_last_again(5, my_list.head)
+find_nth_from_last_again(2, my_list.head)
 my_list.print_list()
 

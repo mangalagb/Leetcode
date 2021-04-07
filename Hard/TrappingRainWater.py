@@ -1,63 +1,42 @@
 # Given n non-negative integers representing an elevation map where the width of each bar is 1,
 # compute how much water it can trap after raining.
 
-# #public int trap(int[] height) {
-#         if (height == null || height.length < 2) return 0;
-#
-#         Stack<Integer> stack = new Stack<>();
-#         int water = 0, i = 0;
-#         while (i < height.length) {
-#             if (stack.isEmpty() || height[i] <= height[stack.peek()]) {
-#                 stack.push(i++);
-#             } else {
-#                 int pre = stack.pop();
-#                 if (!stack.isEmpty()) {
-#                     // find the smaller height between the two sides
-#                     int minHeight = Math.min(height[stack.peek()], height[i]);
-#                     // calculate the area
-#                     water += (minHeight - height[pre]) * (i - stack.peek() - 1);
-#                 }
-#             }
-#         }
-#         return water;
-#     }
-
 class Solution:
     def trap(self,height):
         if not height:
             return 0
 
-        i = 1
-        stack = []
+        left = 0
+        right = len(height) - 1
+        left_max = 0
+        right_max = 0
         total_water = 0
 
-        while i < len(height):
-            current = height[i]
-            water = 0
+        #[4,2,0,3,2,5]
+        while left < right:
+            if height[left] > left_max:
+                left_max = height[left]
 
-            # Insert current index
-            if len(stack) == 0 or current <= height[stack[0]]:
-                stack.insert(0, i)
+            if height[right] > right_max:
+                right_max = height[right]
 
+            # A taller bar exists on left pointer's right side
+            # So compute the left bar's height for water
+            if left_max < right_max:
+                current_water = left_max - height[left]
+                left += 1
             else:
-                popped_index = stack.pop(0)
-                popped_element = height[popped_index]
-
-                min_height = min(current, popped_element)
-                width = i - popped_index + 1
-                water = min_height * width
-                total_water += water
-            i += 1
-
+                current_water = right_max - height[right]
+                right -= 1
+            total_water += current_water
         return total_water
-
 
 
 
 my_sol = Solution()
 
-height = [0,1,0,2,1,0,1,3,2,1,2,1]  #6
+# height = [0,1,0,2,1,0,1,3,2,1,2,1]  #6
+# print(my_sol.trap(height))
+
+height = [4,2,0,3,2,5] #9
 print(my_sol.trap(height))
-#
-# height = [4,2,0,3,2,5] #9
-# print(my_sol.trap(heights))

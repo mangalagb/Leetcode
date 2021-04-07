@@ -5,47 +5,45 @@
 #
 # Note: You are not suppose to use the library's sort function for this problem.
 
+#https://leetcode.com/problems/sort-colors/discuss/26481/Python-O(n)-1-pass-in-place-solution-with-explanation
+
+#This is a dutch partitioning problem. We are classifying the array into four groups:
+# red, white, unclassified, and blue.
+# Initially we group all elements into unclassified. We iterate from the
+# beginning as long as the white pointer is less than the blue pointer.
+
+#If the white pointer is red (nums[white] == 0), we swap with the red
+# pointer and move both white and red pointer forward. If the pointer is
+# white (nums[white] == 1), the element is already in correct place, so we
+# don't have to swap, just move the white pointer forward. If the white
+# pointer is blue, we swap with the latest unclassified element.
+
 class Solution:
     def sortColors(self, nums):
-        if len(nums) == 0:
-            return
+        red, white, blue = 0, 0, len(nums) - 1
 
-        i = 0
-        j = len(nums) -1
-        one_counters = []
+        while white <= blue:
+            if nums[white] == 0:
+                nums[red], nums[white] = nums[white], nums[red]
+                white += 1
+                red += 1
+            elif nums[white] == 1:
+                white += 1
+            else:
+                nums[white], nums[blue] = nums[blue], nums[white]
+                blue -= 1
+        return nums
 
-        while i <= j:
-            while i <= j and nums[i] == 0:
-                if len(one_counters) != 0:
-                    index = one_counters.pop(0)
-                    nums[index] = 0
-                    nums[i] = 1
-                else:
-                    i += 1
+my_solution = Solution()
 
-            while i <= j and nums[j] == 2:
-                j -= 1
-
-            if i <= j and nums[i] == 1:
-                one_counters.append(i)
-                i += 1
-
-            if i <= j and nums[i] == 2:
-                temp = nums[j]
-                nums[j] = 2
-
-                if temp == 0:
-                    nums[i] = temp
-                else:
-                    one_counters.append(i)
-                    nums[i] = temp
-                    i += 1
-        print(nums)
+nums = [0, 1, 0, 1, 2]
+print(my_solution.sortColors(nums)) #[0, 0, 1, 1, 2]
 
 nums = [0,2,0,1,0,2,2,2]
-#nums = [2,0,2,1,1,0]
-#nums = [2, 0, 1]
+print(my_solution.sortColors(nums)) #[0, 0, 0, 1, 2, 2, 2, 2]
 
-print(nums)
-my_solution = Solution()
-my_solution.sortColors(nums)
+nums = [2,0,2,1,1,0]
+print(my_solution.sortColors(nums)) #[0, 0, 2, 1, 2, 2]
+
+nums = [2, 0, 1]
+print(my_solution.sortColors(nums)) #[0, 1, 2]

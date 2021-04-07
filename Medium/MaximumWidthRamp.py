@@ -73,18 +73,16 @@ class Solution(object):
         length_of_nums = len(A)
 
         for i in range(0, length_of_nums):
-            length_of_stack = len(stack) - 1
-            if length_of_stack == -1 or A[i] < stack[length_of_stack]:
-                stack.append(A[i])
+            if len(stack) == 0 or A[stack[-1]] > A[i]:
+                stack.append(i)
 
-        answer = 0
-        length_of_stack = len(stack) - 1
+        max_width = 0
         for j in range(length_of_nums-1, -1, -1):
-            while length_of_stack >= 0 and A[j] > stack[length_of_stack]:
-                answer = max((j - stack.pop(length_of_stack)), answer)
-                length_of_stack = len(stack) - 1
-
-        return answer
+            current = A[j]
+            while len(stack) > 0 and current > A[stack[-1]]:
+                current_width = j - stack.pop(-1) + 1
+                max_width = max(current_width, max_width)
+        return max_width
 
 
 

@@ -11,18 +11,6 @@ class Solution(object):
         :type A: List[int]
         :rtype: List[int]
         """
-        #Time complexity : O(NlogN)
-        #Space complexity : O(1) Sort in place
-        nums = [num * num for num in A]
-        result = sorted(nums)
-        print(result)
-        return result
-
-    def sortedSquaresAnother(self, A):
-        """
-        :type A: List[int]
-        :rtype: List[int]
-        """
         #Time complexity : O(N)
         #Space complexity : O(N)
         l = 0
@@ -48,7 +36,7 @@ class Solution(object):
 my_sol = Solution()
 
 l1 = [-4,-1,0,3,10]
-l2 = [-7,-3,2,3,11]
+my_sol.sortedSquares(l1)
 
-my_sol.sortedSquaresAnother(l1)
-my_sol.sortedSquaresAnother(l2)
+l2 = [-7,-3,2,3,11]
+my_sol.sortedSquares(l2)

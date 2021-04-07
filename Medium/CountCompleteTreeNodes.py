@@ -12,9 +12,11 @@
 #     for example: [1,2,3]
 #     depth is 2
 #     count = (2 ^ 2 )- 1 = 3
-#     Compare left height and right height, if equal, use the formula, otherwise recurvisely search left and right at next level
-#     The search pattern is very similar to binary search, the difference of heights ethier exsits in left side, or right side
-#     Due to the reason stated in point 3, the time complexity is h ^ 2, there is h times for each level, and h times for calculating height at each level
+#     Compare left height and right height, if equal, use the formula, otherwise recurvisely
+#     search left and right at next level. The search pattern is very similar to
+#     binary search, the difference of heights ethier exsits in left side, or right side.
+#     Due to the reason stated in point 3, the time complexity is h ^ 2,
+#     there is h times for each level, and h times for calculating height at each level
 
 class TreeNode(object):
     def __init__(self, x):

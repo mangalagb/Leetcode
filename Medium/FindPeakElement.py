@@ -17,63 +17,56 @@ class Solution(object):
         elif length == 1:
             return 0
 
-        low = 0
-        high = length - 1
+        i = 0
+        #special case for first element
+        if i+1 < length and nums[i] > nums[i+1]:
+            return i
 
-        while low <= high:
-            mid = low + (high-low)//2
+        # special case for last element
+        j = length - 1
+        if j-1 >= 0 and nums[j] > nums[j-1]:
+            return j
 
-            left = mid - 1
-            right = mid + 1
+        # increasing stack
+        stack = [nums[0]]
+        i = 1
+        while i < length:
+            current = nums[i]
+            next_elem = None
+            if i+1 < length:
+                next_elem = nums[i+1]
 
-            if 0 <= left <= length-1 and 0 <= mid <= length-1 \
-                    and 0 <= right <= length-1:
+            if current > stack[-1]:
+                stack.append(current)
 
-                if nums[left] < nums[mid] < nums[right]:
-                    peak_index = right
-                    right += 1
-                    while right < length:
-                        if nums[right] > nums[peak_index]:
-                            peak_index = right
-                            right += 1
-                        else:
-                            break
-                    return peak_index
-                elif nums[left] < nums[mid] and nums[mid] > nums[right]:
-                    return mid
-            elif 0 <= mid <= length-1 and 0 <= right <= length-1:
-                if nums[right] > nums[mid]:
-                    return right
-                else:
-                    return mid
-            elif 0 <= left <= length-1 and 0 <= mid <= length-1:
-                if nums[mid] > nums[left]:
-                    return mid
-                else:
-                    return left
-
-            high = mid - 1
+                if next_elem and current > next_elem:
+                    return i
+            i += 1
+        return -1
 
 
 my_sol = Solution()
 
+nums = [2,1]
+print(my_sol.findPeakElement(nums)) # 0
+
 nums = [1,2,1,3,5,6,4]
-print(my_sol.findPeakElement(nums))
+print(my_sol.findPeakElement(nums)) # 1 or 5
 
 nums = [1,2,3,1]
-print(my_sol.findPeakElement(nums))
+print(my_sol.findPeakElement(nums)) #2
 
 nums = [1,2,1]
-print(my_sol.findPeakElement(nums))
+print(my_sol.findPeakElement(nums)) #1
 
 nums = [3,2,1]
-print(my_sol.findPeakElement(nums))
+print(my_sol.findPeakElement(nums)) #0
 
 nums = [3,4,3,2,1]
-print(my_sol.findPeakElement(nums))
+print(my_sol.findPeakElement(nums)) #1
 
 nums = [5,4,3,2,1]
-print(my_sol.findPeakElement(nums))
+print(my_sol.findPeakElement(nums)) #0
 
 nums = [3]
-print(my_sol.findPeakElement(nums))
+print(my_sol.findPeakElement(nums)) #0

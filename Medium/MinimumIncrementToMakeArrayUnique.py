@@ -42,7 +42,7 @@ class Solution(object):
 my_sol = Solution()
 
 A = [3,2,1,2,1,7]
-print(my_sol.minIncrementForUnique(A))
+print(my_sol.minIncrementForUnique(A)) #6
 
 A = [1,2,2]
-print(my_sol.minIncrementForUnique(A))
+print(my_sol.minIncrementForUnique(A)) #1

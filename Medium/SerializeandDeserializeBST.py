@@ -84,4 +84,4 @@ root = codec.make_tree()
 
 serial = codec.serialize(root)
 print(serial)
-#print(codec.deserialize(serial))
+print(codec.deserialize(serial))

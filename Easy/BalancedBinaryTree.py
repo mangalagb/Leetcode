@@ -2,7 +2,14 @@
 #
 # For this problem, a height-balanced binary tree is defined as:
 #
-#     a binary tree in which the left and right subtrees of every node differ in height by no more than 1.
+# a binary tree in which the left and right subtrees of every node differ in height by no more than 1.
+
+#The algorithm is as follows :
+    # If node == null -> return 0
+    # Check left subtree. If not balanced -> return -1
+    # Check right subtree. If not balanced -> return -1
+    # The absolute between heights of left and right subtrees. If it is greater than 1 -> return -1.
+    # If the tree is balanced -> return height
 
 # Definition for a binary tree node.
 class TreeNode(object):
@@ -18,32 +25,29 @@ class Solution(object):
         :type root: TreeNode
         :rtype: bool
         """
-        if not root:
-            return True
-
-        depth = self.find_depth(root, 0)
-        if depth:
-            return True
-        else:
+        result = self.find_depth(root)
+        if result == -1:
             return False
-
-    def find_depth(self, current, depth):
-        if not current:
-            return depth
-
-        ldepth = self.find_depth(current.left, depth+1)
-        rdepth = self.find_depth(current.right, depth+1)
-
-        if not ldepth or not rdepth:
-            return None
-
-        if ldepth - rdepth > 1 or rdepth - ldepth > 1:
-            return None
-
-        if ldepth >= rdepth:
-            return ldepth
         else:
-            return rdepth
+            return True
+
+    def find_depth(self, current):
+        if not current:
+            return 0
+
+        ldepth = self.find_depth(current.left)
+        if ldepth == -1:
+            return -1
+
+        rdepth = self.find_depth(current.right)
+        if rdepth == -1:
+            return -1
+
+        height_difference = abs(ldepth - rdepth)
+        if height_difference > 1:
+            return -1
+
+        return max(ldepth, rdepth) + 1
 
     def make_tree(self):
         root = TreeNode(3)
@@ -82,7 +86,7 @@ my_sol = Solution()
 
 
 root = my_sol.make_tree()
-print(my_sol.isBalanced(root))
+print(my_sol.isBalanced(root)) #True
 
 root = my_sol.make_tree1()
-print(my_sol.isBalanced(root))
+print(my_sol.isBalanced(root)) #False

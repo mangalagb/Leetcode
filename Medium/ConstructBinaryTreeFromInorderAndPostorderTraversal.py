@@ -28,7 +28,7 @@ class Solution(object):
         if length_of_post_order == 0:
             return
 
-        node_value = postorder.pop(length_of_post_order-1)
+        node_value = postorder.pop(-1)
         index_of_node_in_inorder = inorder.index(node_value)
 
         node = TreeNode(node_value)

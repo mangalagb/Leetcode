@@ -67,5 +67,5 @@ class Solution(object):
 my_sol = Solution()
 
 root = my_sol.make_tree1()
-root = my_sol.deleteNode(root, 4)
+root = my_sol.deleteNode(root, 5)
 print(root)

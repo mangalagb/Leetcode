@@ -5,6 +5,10 @@
 # are connected by exactly one path. In other words, any connected graph without simple cycles is a tree.”
 
 #https://leetcode.com/problems/graph-valid-tree/discuss/69046/Python-solution-with-detailed-explanation
+#SOLUTION
+# When we iterate through the neighbours of a node, we ignore
+# the "parent" node as otherwise it'll be detected as a trivial cycle
+# A -> B -> A(ignore B's parent A in B's neighbours)
 
 class Solution(object):
     def validTree(self, n, edges):
@@ -13,8 +17,9 @@ class Solution(object):
         :type edges: List[List[int]]
         :rtype: bool
         """
-        if n == 1:
-            return True
+        graph = self.build_adjacency_list(n, edges)
+        root = 0
+        parent_dict = {0: -1}
 
         adj_list = self.build_adjacency_list(n, edges)
         visited = [False] * n

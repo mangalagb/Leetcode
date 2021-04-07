@@ -9,22 +9,29 @@ class Solution(object):
         :type intervals: List[List[int]]
         :rtype: bool
         """
-        timeline = defaultdict(int)
+        start = []
+        end = []
         for interval in intervals:
-            timeline[interval[0]] += 1
-            timeline[interval[1]] -= 1
+            start.append(interval[0])
+            end.append(interval[1])
 
-        #Sort by keys
-        sorted_timeline = OrderedDict(sorted(timeline.items()))
+        sorted_start = sorted(start)
+        sorted_end = sorted(end)
 
-        current_room = 0
-        for value in sorted_timeline.values():
-            current_room += value
+        j = 0
+        rooms = 0
+        for i in range(0, len(sorted_start)):
+            meeting_start = sorted_start[i]
+            meeting_end = sorted_end[j]
 
-            # current room > 1 means he nneds to be in 2 rooms simultaneously
-            if current_room > 1:
-                return False
+            if meeting_start < meeting_end:
+                rooms += 1
+                if rooms > 1:
+                    return False
+            else:
+                j += 1
         return True
+
 
 my_sol = Solution()
 
