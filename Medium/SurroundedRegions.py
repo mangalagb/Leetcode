@@ -20,9 +20,9 @@ class Solution(object):
         # 2) Change all O to X (They are valid regions)
         for i in range(0, len(board)):
             for j in range(0, len(board[0])):
-                if board[i][j] is "!":
+                if board[i][j] == "!":
                     board[i][j] = "O"
-                elif board[i][j] is "O":
+                elif board[i][j] == "O":
                     board[i][j] = "X"
 
         print(board)
