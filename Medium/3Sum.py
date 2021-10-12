@@ -38,4 +38,4 @@ def findSum(nums):
     return result
 
 nums = [3,0,-2,-1,1,2]
-print(findSum(nums))
+print(findSum(nums)) #[[-2, -1, 3], [-2, 0, 2], [-1, 0, 1]]
