@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<Resource>
+    <Item>
+        <mdExch>cbny</mdExch>
+        <Entity>US</Entity>
+    </Item>
+    <Item>
+        <mdExch>cbny</mdExch>
+        <Entity>EU</Entity>
+    </Item>
+    <Item>
+        <mdExch>cy</mdExch>
+        <Entity>EU</Entity>
+    </Item>
+</Resource>

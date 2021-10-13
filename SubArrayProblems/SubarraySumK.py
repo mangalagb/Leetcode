@@ -1,49 +1,18 @@
 #Given an array of integers and an integer k, you need to find the
 # total number of continuous subarrays whose sum equals to k.
 
-#Observe that we actually only care about results of sub sum instead of value of individual elements.
-# input =[1,2,3] k=5
-# input =[1,1,1,3] k=5
-# input =[1,-1,1,2,3] k=5
-#
-# While we iterate though array and encounter value 3, all these examples will achieve sub sum=5=k.
-# Thus for value 3, it only need previous sum of 2 no matter what it composed. Ex: [2], [1,1], [-1,1,2]
+#The idea behind this approach is as follows: If the cumulative sum(represented by sum[i]sum[i] for sum up to i^{th}i th
+#index) up to two indices is the same, the sum of the elements
+# lying in between those indices is zero. Extending the same
+# thought further, if the cumulative sum up to two indices, say
+# ii and jj is at a difference of kk i.e. if sum[i] - sum[j] = ksum[i]−sum[j]=k,
+# the sum of elements lying between indices ii and jj is kk.
 
-# We record required_sum as key and value will be the count of number of times the sum has appeared
-
-# So, if currentSum - k is in the recorded array, at this point, subarray sum = k
+#https://leetcode.com/problems/subarray-sum-equals-k/solution/
 
 from collections import defaultdict
 
 class Solution(object):
-    def subarraySum1(self, nums, k):
-        length_of_nums = len(nums)
-        number_of_subarrays = 2 ** length_of_nums
-
-        result = 0
-        for i in range(0, number_of_subarrays):
-            binary_num = bin(i)[2:].zfill(length_of_nums)
-
-            valid_subset = True
-            seen_one = False
-            for i in range(0, length_of_nums):
-                digit = binary_num[i]
-
-                if digit == "1":
-                    if not seen_one:
-                        seen_one = True
-                    else:
-                        if binary_num[i-1] != "1":
-                            valid_subset = False
-                            break
-
-            if valid_subset:
-                subset = [nums[j] for j in range(length_of_nums - 1, -1, -1) if binary_num[j] == "1"]
-                if sum(subset) == k:
-                    result += 1
-        return result
-
-
     def subarraySum(self, nums, k):
         if not nums:
             return
@@ -78,7 +47,7 @@ print(my_sol.subarraySum(nums, k)) #55
 
 nums = [1,1,1]
 k = 2
-print(my_sol.subarraySum1(nums, k)) #2
+print(my_sol.subarraySum(nums, k)) #2
 
 nums = [3,3,3,3]
 k = 6
