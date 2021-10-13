@@ -3,8 +3,6 @@
 #SOLUTION
 #https://www.youtube.com/watch?v=qKczfGUrFY4
 
-from collections import defaultdict, OrderedDict
-
 class Solution:
     def merge(self, intervals):
         if len(intervals) == 0:

@@ -4,10 +4,17 @@
 # A node A is an ancestor of B if either: any child of A is equal to B,
 # or any child of A is an ancestor of B.
 
+#SOLUTION : any two nodes on the same root-to-leaf path, have a ancestor relationship.
+#The first argument node is the current node, and the second argument
+# cur_max and third argument cur_min are the maximum and minimum values
+# along the root to the current node, respectively.
+
+#Function helper returns cur_max - cur_min when encountering leaves.
+# Otherwise, it calls helper on the left and right subtrees and returns their maximum.
+
+
+
 # Definition for a binary tree node.
-import sys
-
-
 class TreeNode(object):
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -31,12 +38,9 @@ class Solution(object):
         if not node:
             return
 
-        val1 = abs(node.val - cur_min)
-        val2 = abs(node.val - cur_max)
-        self.max_value = max(self.max_value, val1, val2)
-
         cur_min = min(cur_min, node.val)
         cur_max = max(cur_max, node.val)
+        self.max_value = max(self.max_value, (cur_max-cur_min))
 
         self.traverse_path(node.left, cur_min, cur_max)
         self.traverse_path(node.right, cur_min, cur_max)

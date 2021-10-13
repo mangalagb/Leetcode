@@ -1,4 +1,5 @@
-#  Given an integer array with no duplicates. A maximum tree building on this array is defined as follow:
+#  Given an integer array with no duplicates. A maximum tree building on
+#  this array is defined as follow:
 #
 #     The root is the maximum number in the array.
 #     The left subtree is the maximum tree constructed from left part subarray
