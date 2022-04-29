@@ -46,14 +46,14 @@ my_sol = Solution()
 s = "aab"
 print(my_sol.partition(s)) #[["a","a","b"],["aa","b"]]
 
-s = "a"
-print(my_sol.partition(s)) #[["a"]]
-
-s = "abba"
-print(my_sol.partition(s)) #[['a', 'b', 'b', 'a'], ['a', 'bb', 'a'], ['abba']]
-
-s = "ab"
-print(my_sol.partition(s)) #[["a","b"]]
-
-s = "bb"
-print(my_sol.partition(s)) #[['b', 'b'], ['bb']]
+# s = "a"
+# print(my_sol.partition(s)) #[["a"]]
+#
+# s = "abba"
+# print(my_sol.partition(s)) #[['a', 'b', 'b', 'a'], ['a', 'bb', 'a'], ['abba']]
+#
+# s = "ab"
+# print(my_sol.partition(s)) #[["a","b"]]
+#
+# s = "bb"
+# print(my_sol.partition(s)) #[['b', 'b'], ['bb']]

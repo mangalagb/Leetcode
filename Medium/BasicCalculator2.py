@@ -25,42 +25,42 @@ class Solution(object):
         if not s:
             return 0
 
-        number = 0
-        sign = "+"
+        operator = "+"
+        digit = 0
         stack = []
-        s = s.strip()
 
-        for i in range(0, len(s)):
-            current = s[i]
+        for i in range(0, len(s) + 1):
+            if i == len(s):
+                current = "$"
+            else:
+                current = s[i]
 
-            if current is " ":
+            if current == " ":
                 continue
             elif current.isdigit():
-                number = (number*10) + int(current)
+                digit = (digit * 10) + int(current)
+            else:
+                if operator == "+":
+                    digit = digit * 1
+                elif operator == "-":
+                    digit = digit * -1
+                elif operator == "*":
+                    previous_num = stack.pop(-1)
+                    digit = digit * previous_num
+                elif operator == "/":
+                    previous_num = stack.pop(-1)
+                    digit = int(previous_num / digit)
 
-            if i == len(s)-1 or (current in ["+", "-", "*", "/"]):
-                if sign == "+":
-                    stack.append(number)
-                elif sign == "-":
-                    stack.append(-number)
-                elif sign == "*":
-                    result = stack.pop(-1) * number
-                    stack.append(result)
-                else:
-                    result = int(stack.pop(-1) / number)
-                    stack.append(result)
-                number = 0
-                sign = current
+                stack.append(digit)
+                digit = 0
+                operator = current
 
         result = 0
         for i in range(0, len(stack)):
-            result += stack[i]
+            current = stack[i]
+            result += current
+
         return result
-
-
-
-
-
 
 
 my_sol = Solution()

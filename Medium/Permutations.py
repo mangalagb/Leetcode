@@ -1,3 +1,6 @@
+#Given an array nums of distinct integers, return all the possible permutations.
+# You can return the answer in any order.
+
 class Solution(object):
     def permute(self, nums):
         """
@@ -28,9 +31,9 @@ my_sol = Solution()
 
 nums = [1,2,3]
 print(my_sol.permute(nums)) #[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
-
-nums = [0, 1]
-print(my_sol.permute(nums)) #[[0,1],[1,0]]
-
-nums = [1]
-print(my_sol.permute(nums)) #[[1]]
+#
+# nums = [0, 1]
+# print(my_sol.permute(nums)) #[[0,1],[1,0]]
+#
+# nums = [1]
+# print(my_sol.permute(nums)) #[[1]]

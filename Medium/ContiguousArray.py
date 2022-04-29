@@ -7,54 +7,44 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        num_dict = {0: 0, 1: 0}
+        current_sum = 0
+        counts = {}
+        max_len = -1
 
-        for num in nums:
-            num_dict[num] += 1
+        for i in range(0, len(nums)):
+            num = nums[i]
+            if num == 0:
+                current_sum -= 1
+            else:
+                current_sum += 1
 
+            if current_sum == 0:
+                max_len = max(max_len, i+1)
 
-        begin = 0
-        end = len(nums) - 1
-        result = 0
-        while True:
-            number_of_zero = num_dict[0]
-            number_of_one = num_dict[1]
-
-            if number_of_zero == number_of_one:
-                result = number_of_one * 2
-                break
-
-            number_to_remove = 0
-            if number_of_one > number_of_zero:
-                number_to_remove = 1
-
-            if nums[begin] == number_to_remove:
-                begin += 1
-                num_dict[number_to_remove] -= 1
-                continue
-
-            end -= 1
-            num_dict[number_to_remove] -= 1
-
-        return result
+            if current_sum in counts:
+                index = counts[current_sum]
+                max_len = max(max_len, i-index)
+            else:
+                counts[current_sum] = i
+        return max_len
 
 
 
 
 my_sol = Solution()
-
-nums = [0,1]
-print(my_sol.findMaxLength(nums)) #2
+#
+# nums = [0,1]
+# print(my_sol.findMaxLength(nums)) #2
 
 nums = [0,1,0]
 print(my_sol.findMaxLength(nums)) #2
-
-nums = [0,0,1,0,0,0,1,1]
-print(my_sol.findMaxLength(nums)) #6
-
-nums = [1,1,1,1,1,1,1,1]
-print(my_sol.findMaxLength(nums)) #0
-
-nums = [0,1,1,0,1,1,1,0]
-print(my_sol.findMaxLength(nums)) #6
+#
+# nums = [0,0,1,0,0,0,1,1]
+# print(my_sol.findMaxLength(nums)) #6
+#
+# nums = [1,1,1,1,1,1,1,1]
+# print(my_sol.findMaxLength(nums)) #0
+#
+# nums = [0,1,1,0,1,1,1,0]
+# print(my_sol.findMaxLength(nums)) #6
 

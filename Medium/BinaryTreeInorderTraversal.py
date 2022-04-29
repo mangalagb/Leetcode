@@ -1,6 +1,11 @@
 # Given a binary tree, return the inorder traversal of its nodes' values.
 # Recursive solution is trivial, could you do it iteratively?
 
+#We push all the left children of root into the stack until there's no more nodes.
+# Then we pop from the stack which we'd call cur.
+# Add cur to result list
+# Recursively call pushAllLeft() on cur's right child.
+
 # Definition for a binary tree node.
 class TreeNode(object):
     def __init__(self, x):
@@ -44,4 +49,4 @@ class Solution(object):
 my_sol = Solution()
 
 root = my_sol.make_tree()
-print(my_sol.inorderTraversal(root))
+print(my_sol.inorderTraversal(root)) #[1, 3, 2]

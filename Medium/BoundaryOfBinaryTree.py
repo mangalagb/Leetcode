@@ -35,8 +35,7 @@ class Solution(object):
 
         result = [root.val]
         self.get_left_boundary(root.left, result)
-        self.get_leaves(root.left, result)
-        self.get_leaves(root.right, result)
+        self.get_leaves(root, result)
         self.get_right_boundary(root.right, result)
 
         return result

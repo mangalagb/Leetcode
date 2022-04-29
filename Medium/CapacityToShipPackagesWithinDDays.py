@@ -34,24 +34,22 @@ class Solution(object):
 
 
     def is_weight_possible(self, ship_capacity, weights, D):
-        days = 0
-        running_weight = 0
-        i = 0
+        current = 0
+        days = 1
+        weights.append(0)
 
-        while days < D and i < len(weights):
-            while running_weight <= ship_capacity and i < len(weights):
-                running_weight += weights[i]
-                i += 1
-
-            if running_weight > ship_capacity:
+        for weight in weights:
+            if (current+weight) > ship_capacity:
                 days += 1
-                running_weight = 0
-                i -= 1
+                current = 0
 
-        if i >= len(weights):
-            return True
-        else:
+            current += weight
+
+        if days > D:
             return False
+        else:
+            return True
+
 
 
 my_sol = Solution()

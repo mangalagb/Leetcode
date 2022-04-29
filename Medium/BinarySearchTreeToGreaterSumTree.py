@@ -10,6 +10,9 @@
 # Note: This question is the same as 538:
 # https://leetcode.com/problems/convert-bst-to-greater-tree/
 
+# we need to sum node.right + node.val + node.left
+#This is reverse inorder
+
 # Definition for a binary tree node.
 class TreeNode(object):
     def __init__(self, val=0, left=None, right=None):
@@ -18,34 +21,27 @@ class TreeNode(object):
         self.right = right
 
 class Solution(object):
+    def __init__(self):
+        self.sum  = 0
+
     def bstToGst(self, root):
         """
         :type root: TreeNode
         :rtype: TreeNode
         """
-        self.process_node(root, 0)
+        if not root:
+            return
+
+        #Visit right first, then add root.val then visit left
+        self.bstToGst(root.right)
+
+        self.sum += root.val
+        root.val = self.sum
+
+        self.bstToGst(root.left)
+
         return root
 
-    def process_node(self, node, current_sum):
-        if not node:
-            return current_sum
-
-        if not node.left and not node.right:
-            current_sum += node.val
-            node.val = current_sum
-            return current_sum
-
-        right_sum = self.process_node(node.right, current_sum)
-
-        current_sum = right_sum
-        current_sum += node.val
-
-        #set current node's value
-        #only right tree sum
-        node.val = current_sum
-
-        current_sum = self.process_node(node.left, current_sum)
-        return current_sum
 
 
     def create_tree(self):

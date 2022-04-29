@@ -9,7 +9,8 @@ class Solution(object):
         :type S: int
         :rtype: int
         """
-        sum_dict = defaultdict(int)
+        sum_dict = {}
+        t = defaultdict(int)
         count = 0
         current_sum = 0
 

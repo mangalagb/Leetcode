@@ -3,7 +3,6 @@
 #
 # If two nodes are in the same row and column, the order should be from left to right.
 import collections
-import heapq
 
 # Definition for a binary tree node.
 from operator import itemgetter
@@ -21,52 +20,37 @@ class Solution(object):
         :type root: TreeNode
         :rtype: List[List[int]]
         """
+        #DO BFS
+        #It will take care that earlier rows are visited first
         if not root:
             return []
 
-        depth_dict = {}
+        #Store col num
+        queue = [(root, 0)]
+        min_col = 0
+        max_col = 0
+        result = collections.defaultdict(list)
 
-        #DO BFS
-        queue = [[root, 0, 0]]
-        while len(queue) > 0:
+        while queue:
             element = queue.pop(0)
-            x = element[1]
-            y = element[2]
             node = element[0]
-            node_val = node.val
+            col_num = element[1]
 
-            tup = tuple([x, y])
-            if tup in depth_dict:
-                depth_dict[tup].append(node.val)
-            else:
-                depth_dict[tup] = [node_val]
+            min_col = min(min_col, col_num)
+            max_col = max(max_col, col_num)
+
+            result[col_num].append(node.val)
 
             if node.left:
-                queue.append([node.left, x-1, y-1])
+                queue.append((node.left, col_num-1))
 
             if node.right:
-                queue.append([node.right, x+1, y-1])
+                queue.append((node.right, col_num+1))
 
-        #Sort the keys first by increasing x values
-        # then by decreasing y values (left to right will mean a greater y will be on the left)
-
-        sorted_keys = list(depth_dict.keys())
-        sorted_keys.sort(key=itemgetter(1), reverse=True)
-
-        #The sort with first preference should come last
-        sorted_keys.sort(key=itemgetter(0))
-
-        result = {}
-        for key in sorted_keys:
-            x = key[0]
-            values = depth_dict[key]
-
-            if x not in result:
-                result[x] = values
-            else:
-                result[x].extend(values)
-
-        return list(result.values())
+        answer = []
+        for i in range(min_col, max_col+1):
+            answer.append(result.get(i))
+        return answer
 
 
     def make_tree(self):
